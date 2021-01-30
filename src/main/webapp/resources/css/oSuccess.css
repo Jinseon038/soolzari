@@ -1,0 +1,70 @@
+@charset "UTF-8";
+/* 배너----------------------------------------- */
+.bTDiv2>h5:nth-child(3){
+	color: white;
+}
+.bTDiv2>h5:nth-child(3){
+	color: white;
+}
+/* 주문완료문구----------------------------------------- */
+.comment{
+	text-align: center;
+	margin-bottom: 100px;
+}
+
+/* 배송지 정보----------------------------------------- */
+.subTitle{
+	margin-bottom: 20px;
+}
+.atd2{
+	width: 80%;
+}
+th{
+	text-align: center;
+}
+.table tr:first-child>td, .table tr:first-child>th {
+	border-top: 1px solid gray;
+}
+tr:last-child {
+	border-bottom: 1px solid #dee2e6;
+}
+
+.addr{
+	display: inline-block;
+	margin: 0;
+}
+
+.info{
+	margin-bottom: 100px;
+}
+/* 결제 정보----------------------------------------- */
+.totalPrice{
+	font-weight: bold;
+	font-size: 30px;
+	color: rgb(77, 80, 117);
+	padding: 0;
+	display: inline-block;
+}
+
+/* 버튼----------------------------------------- */
+.btnDiv{
+	text-align: center;
+}
+.bt{
+	width: 200px;
+	height: 50px;
+	line-height: 50px;
+	padding: 0;
+	border-radius: 5px;
+}
+.keepBtn{
+	border: 1px solid rgb(232, 154, 173);
+	color: rgb(232, 154, 173);
+	background-color: white;
+	
+}
+.orderBtn{
+	border: 1px solid rgb(232, 154, 173);
+	background-color: rgb(232, 154, 173);
+	color: white;
+}

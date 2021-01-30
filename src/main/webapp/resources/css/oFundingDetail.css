@@ -1,0 +1,142 @@
+@charset "UTF-8";
+body .wrap2{
+	overflow: hidden;
+	width: 1200px;
+	margin: 0 auto;
+	margin-top: 80px;
+}
+p {
+	margin-bottom: 5px;
+}
+
+.name{
+	font-size:15px !important;
+}
+/* 제일 상단 이미지----------------------------------------- */
+.mainContent{
+	width: 68%;
+	float: left;
+}
+.mainImg{
+	border: 1px solid lightgray;
+	text-align: center;
+}
+body img {
+	width: auto; height: auto;
+    max-width: 800px;
+}
+/* fixdiv장바구니DIV----------------------------------------- */
+.fixContent{
+	margin: 10px;
+	margin-top: 0;
+	width: 350px;
+	height: auto;
+	border: 1px solid lightgray;
+	padding: 20px;
+	position: fixed;
+	left: 66%;
+}
+.fixTable th,.fixTable td{
+	border-top: none;
+}
+.fixTable th{
+	width: 35%;
+}
+
+.gh3{
+	text-indent: 30px;
+	display: inline-block;
+	font-size: 20px;
+}
+.gh4{
+	text-indent: 10px;
+	display: inline-block;
+}
+.mi, .pl{
+	width: 30px;
+	height: 30px;
+}
+.totalWrap{
+	overflow: hidden;
+	width: 100%;
+	margin-bottom: 10px;
+}
+.totalDiv1, .totalDiv2{
+	float: left;
+}
+.totalDiv1{
+	width: 30%;
+	padding-left: 10px;
+}
+.totalDiv2{
+	width: 70%;
+	text-align: right;
+	padding-right: 10px;
+}
+.totalPrice{
+	display: inline-block;
+	color: red;
+}
+.fundName{
+	font-weight: bold;
+	font-size: 20px;
+}
+/* 장바구니,구매하기 버튼----------------------------------------- */
+.btnDiv{
+	text-align: center;
+}
+.btnDiv .paymentBtn{
+	border: 1px solid rgb(77, 80, 117);
+	color: white;
+	background-color: rgb(77, 80, 117);
+	width: 100%;
+}
+.paymentBtn:hover{
+	color: white;
+}
+.basketBtn:hover{
+	color: rgb(77, 80, 117);
+}
+.basketBtn:focus, .paymentBtn:focus{
+	box-shadow: none;
+}
+.basketBtn,.paymentBtn{
+	width: 49%;
+	box-sizing: border-box;
+}
+
+/* 리뷰로 이동하기(같은화면 내에서 a태그로 이동하는것)----------------------------------------- */
+.aTarget{
+	padding: 10px;
+	text-align: right;
+}
+.at{
+	color: rgb(77, 80, 117);
+}
+.at:hover{
+	color: rgb(77, 80, 117);
+	text-decoration: none;
+}
+/* 후원 상세보기----------------------------------------- */
+.detail .detailBtn{
+	text-align: right; 
+	display: inline-block; 
+	width: 10%; 
+	font-weight: bold;
+}
+.fndGName{
+	display: inline-block; 
+	width: 80%;
+}
+/* 추가 후원하기----------------------------------------- */
+.goodsList input:focus{
+	outline: none;
+	border: 1px solid lightgray;
+}
+.goodsList input{
+	border: 1px solid lightgray;
+}
+.addFundSel{
+	width: 23%;
+	font-size: 12px;
+}

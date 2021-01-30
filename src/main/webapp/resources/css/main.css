@@ -1,0 +1,736 @@
+@charset "UTF-8";
+
+/* reset */
+* {margin: 0;padding: 0;}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, tbody, tfoot, thead, tr, th, td{margin:0;padding:0;}
+h1, h2, h3, h4, h5, h6 {font-weight: 700; font-size: inherit;}
+a {color: inherit; text-decoration: none;}
+img {vertical-align: middle;}
+a img {border: none;}
+li {list-style: none;}
+address, em, i {font-style: normal;}
+
+
+
+/*layout*/@charset "utf-8";
+@font-face {
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+
+* {
+    font-family: 'S-CoreDream-3Light';
+}
+
+.wrap{
+	
+
+    
+	min-width:1200px;
+
+ overflow: hidden;
+    
+}
+
+/* header */
+
+header{
+	width:100%;
+	height:80px;
+  	margin:0 auto;
+	line-height:80px;
+	padding:0px 30px;
+	box-sizing:border-box;
+	background: rgba(255,255,255,0.9);
+	position:fixed;
+	top:0;
+	z-index:1;
+        
+}
+.bgColor{
+    padding:0;
+    box-sizing: border-box;
+
+    width:100%;
+ 
+    /*height:550px;*/
+}
+header .on{
+ 
+    background: #fff;
+}
+header .logo{
+	margin-left:15px;
+	display:block;
+    margin-right:20px;
+	float:left;
+}
+header .logo img{
+	
+	opacity:0.6;
+	width:120px;
+	height:100%;
+	object-fit:cover;
+}
+header nav{
+ 
+	width:62%;
+    height: 100%;
+	float:left;
+  
+
+}
+header nav:after{
+    content: '';
+    display: block;
+    clear:both;
+}
+
+header nav .gnb{
+    margin:0 auto;
+ position: relative;
+	width:100%;
+}
+header nav .gnb li{
+    letter-spacing: 3px;
+    width:12%;
+  
+    
+    text-align: center;
+    box-sizing: border-box;
+	display: inline-block; /* li는 블록속성이기에 inline 속성을 이루도록*/
+	margin-left:70px;
+    float:left;
+	
+}
+
+
+header nav .gnb li a{
+   color:black;
+    font-family: 'S-CoreDream-3Light';
+    text-decoration: none;
+	font-weight:bold;
+	display:block;
+	font-size:17px;
+	position:relative;
+	
+}
+
+
+/*
+header nav .gnb li:hover .sub{
+    display: block;
+    background: red;
+    
+ 
+}
+*/
+header nav .gnb li:hover .sub{
+    
+    border-top: 5px solid #bca0c9;
+}
+header nav .gnb li a:hover + #nop a{
+    border-bottom: 0px solid white;
+}
+
+
+
+header nav .gnb li a:hover .bg{
+    width:100%;
+    height:120px;
+    background: black;
+    
+}
+
+.search_input{
+    
+    width:120px !important; 
+    padding:12px 10px !important;
+     background-color: transparent !important;
+  transition: transform 250ms ease-in-out;
+        font-size: 14px !important;
+        line-height: 18px !important;
+        
+        color: #575756 !important;
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+        background-size: 18px 18px;
+        background-position: 95% center;
+        border-radius: 50px;
+        border: 1px solid #575756;
+        transition: all 250ms ease-in-out;
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
+}
+
+.search_input:hover, .search_input:focus{
+     padding: 12px 0;
+            outline: 0;
+            border: 1px solid transparent;
+            border-bottom: 1px solid #575756;
+            border-radius: 0;
+            background-position: 100% center;
+}
+
+
+.carousel-inner {
+width: 100%;
+    height:70%;
+}
+
+
+.carousel-inner > .item > img{
+    width:80%;
+    max-height: 500px;
+}
+.carousel-inner > .item > a > img {
+     width: 100%;
+    height: auto;
+     margin: auto;
+     min-height:initial;
+}
+
+
+.login li{
+	float:right;
+	margin-right:13px;
+	position:relative;
+	top:-10px;
+}
+
+.login li a{
+        font-family: 'S-CoreDream-3Light';
+    text-decoration: none;
+    color:black;
+    font-size:15px;
+}
+
+
+.login li a:hover:after, .login li a:focus:after{
+	width:100%;
+}
+
+
+/* 서브메뉴 */
+
+header nav .gnb .sub {
+    margin-top:15px;
+   
+
+	
+    text-align: center;
+    top:10px;
+   height:300px;
+     line-height: 65px;
+    width:100%;
+    display: none;
+  
+}
+header nav .gnb .sub li{
+    
+     border-bottom:0px solid white;
+   
+    margin:0 auto;
+    width:100%;
+    display: inline-block;
+
+}
+
+
+/*
+header nav .gnb .sub li{
+     
+    display: none;
+    margin:0;    /* 위에 margin-left:100px 들어가있으므로 다시 margin 0주자
+	text-align: center;
+}
+*/
+header nav .gnb .sub li a{
+  font-size:13px;
+    width:100%;
+   font-family: 'S-CoreDream-3Light';
+   left:50%;
+    transform: translateX(-50%);
+  
+}
+
+#nop{
+    float:none;
+}
+header nav .gnb .sub li a:hover{
+  width:100%;
+   background-color: #ffd0bf;
+}
+
+header nav .gnb .sub li a:after{
+    content: '';
+    width:0%;
+    height: 0%;
+}
+
+
+
+.new_product, .best_product{
+    width:75%;
+    margin:0 auto;
+}
+
+.new_product span h2, .best_product span h2{
+           font-family: 'S-CoreDream-3Light';
+}
+.new-pList, .best-pList{
+    width:80%;
+    margin:0 auto;
+}
+
+.nList, .bList{
+    overflow: hidden;
+    text-align: center;
+    line-height: 40px;
+}
+
+.nList a{
+    color:#111;
+}
+
+
+
+
+.nList li, .bList li{
+    display: block;
+    float:left;
+    width:calc(100%/4);
+    padding:10px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.nList li a, .bList li a{
+    
+    display: block;
+}
+.newList-li a, .bestList-li a{
+    
+    text-decoration: none;
+    color:black;
+}
+
+.newList-li a:hover{
+    
+    text-decoration: none;
+    color:black;
+}
+
+.bestList-li a:hover{
+     text-decoration: none;
+    color:black;
+    
+}
+.newImg-wrap {
+    
+    position: relative;
+    transition: all 0.2s;
+}
+
+
+.newImg-wrap:after{
+    content: '상품 자세히 보기';
+    width:100%;
+    height: 100%;
+    background: rgba(44,35,28,0.4);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 22px;
+      color:#f8b24f;
+    font-weight: bold;
+       padding-top:150px; 
+    box-sizing: border-box;
+    opacity: 0;  /* 평상시엔 안보이고 hover 됐을때만 보이도록*/
+    transition: all 0.2s;
+}
+.newImg-wrap:hover img{
+     transform: translate(-2px; -2px);
+    box-shadow: 15px 13px 10px rgba(0,0,0,0.35);
+}
+.newImg-wrap:hover:after{
+   opacity: 1;
+}
+/* 찜하기*/
+.btn_like {
+  position: relative;
+
+  display: block;
+  width: 44px;
+  height: 44px;
+    float:right;
+  border: 1px solid #e8e8e8;
+  border-radius: 44px;
+     font-family: 'S-CoreDream-3Light';
+  font-size: 14px;
+  line-height: 16px;
+  background-color: #fff;
+  color: #DD5D54;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.03);
+  transition: border .2s ease-out,box-shadow .1s ease-out,background-color .4s ease-out;
+  cursor: pointer;
+}
+
+.btn_like:hover {
+  border: 1px solid rgba(228,89,89,0.3);
+  background-color: rgba(228,89,89,0.02);
+  box-shadow: 0 2px 4px 0 rgba(228,89,89,0.2);
+}
+
+.btn_unlike .img_emoti {
+    background-position: -30px -120px;
+}
+
+.img_emoti {
+    display: inline-block;
+    overflow: hidden;
+    font-size: 0;
+    line-height: 0;
+    background: url(https://mk.kakaocdn.net/dn/emoticon/static/images/webstore/img_emoti.png?v=20180410) no-repeat;
+    text-indent: -9999px;
+    vertical-align: top;
+    width: 20px;
+    height: 17px;
+    margin-top: 1px;
+    background-position: 0px -120px;
+    text-indent: 0;
+}
+
+.btn_like .ani_heart_m {
+    margin: -63px 0 0 -63px;
+}
+
+.ani_heart_m {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 125px;
+    height: 125px;
+    margin: -63px 0 0 -63px;
+    transform: all 0.5s;
+    pointer-events: none;
+}
+
+.ani_heart_m.hi {
+    background-image: url(https://mk.kakaocdn.net/dn/emoticon/static/images/webstore/retina/zzim_on_m.png);
+ 
+    background-size: 9000px 125px;
+    animation: on_m 1.06s steps(72);
+}
+
+.ani_heart_m.bye {
+    background-image: url(https://mk.kakaocdn.net/dn/emoticon/static/images/webstore/retina/zzim_off_m.png);
+
+    background-size: 8250px 125px;
+    animation: off_m 1.06s steps(66);
+}
+
+@keyframes on_m {
+  from { background-position: 0 }
+  to { background-position: -9000px }
+}
+
+@keyframes off_m {
+  from { background-position: 0 }
+  to { background-position: -8250px }
+}
+.text-box{
+    text-align: left;
+    background: #fff;
+    border: 1px solid #eee;
+}
+
+.text-box>div h4{
+    text-align: left;
+    font-size:20px;
+    font-family: 'S-CoreDream-3Light';
+}
+
+.gray{
+		height:30px;
+		line-height: 30px;
+		color:#58595b;
+        margin-top:5px;
+	}
+
+.name{
+    font-size:30px;
+}
+.price{
+       font-family: 'S-CoreDream-3Light';
+    font-size:19px;
+}
+.rateNum{
+	
+	font-size:16px;
+}
+
+/* 구독 */
+.subscribe{
+    padding-top:120px;
+    width:80%;
+    margin:0 auto;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding-bottom:100px;
+   
+}
+.subs-image{
+    
+    float:left;
+    
+}
+
+.sub-text{
+    margin-top:60px;
+    padding-right: 40px;
+    float:right;
+     position: relative;
+}
+
+.sub-text>h2{
+    text-align: center;
+    font-size:40px;
+          color: #f7b8b4;
+      
+        font-weight: bold;
+     font-family: 'S-CoreDream-3Light';
+}
+
+.sub-text>span{
+    margin-top: 30px;
+    text-align: center;
+    font-size:24px;
+    display: block;
+    margin-bottom: 30px;
+            font-family: 'S-CoreDream-3Light';
+}
+
+   #subs_button{
+   position: absolute;
+       left:50%;
+       transform: translateX(-50%);
+    color:#fff;
+    background: #4D5075;
+    border:0;
+    width:190px;
+       height: 70px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+/* footer */
+
+footer{
+
+    padding: 30px 0 0;
+    text-align: center;
+    background: #4d5075;
+    color:white;
+    margin-top:100px;
+}
+
+footer .sns li{
+    
+    display: inline-block; /* 1열로 처리하기 위해*/
+    margin-right: 30px;
+}
+
+footer .footerLogo{
+         font-family: 'S-CoreDream-3Light';
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: -6px;
+    color:white;
+    margin:40px 0 20px;
+}
+
+footer ul li{
+        font-family: 'S-CoreDream-3Light';
+    font-size: 17px;
+    line-height: 1.4;
+    
+}
+
+footer ul li .copyright{
+
+    font-size: 15px;
+    font-weight: 100;
+    display: block; /* span은 인라인이라 마진이 먹히지않으므로 block 속성으로 바꿔줌*/
+    margin-top: 20px;
+       color:white;
+    
+}
+header .open, header .close{
+    
+    display: none;
+}
+@media screen and (max-width:1200px){
+    
+    
+     .wrap{
+        min-width: 100%;  
+    }
+    
+    header{
+        height: 80px;
+        line-height: 80px;
+        padding: 0 10px;
+        
+    }
+    header .open{
+        display: block;
+        float:right;
+        font-size: 35px;
+        height: 60px;  /* 헤더 높이에 맞추도록*/
+        padding-top: 5px;
+        box-sizing: border-box;
+    }
+    header .logo{
+        
+        font-size:30px;
+        letter-spacing: -4px;
+    }
+
+    .bgColor{
+        height: 0;
+    }
+     /* 메뉴 오픈 시 배경 어두운 색깔 */
+    header .bg{
+        width: 100%;
+        height: 100vh; /* viewport의 높이를 그대로 준다*/
+        background: rgba(0,0,0,0.6);
+        display: block;  /* span 인라인 속성이기 때문에*/
+        position: absolute;  /* 꼭 realative가 아니더라도 header에 fixed가 되어있어서 헫거ㅣ준으로 적용된다
+        만약 부모요소가 포지션이 없다면 가장 가까이 있는 포지션이 주어진 부모요소 기준으로 적용된다.*/
+        top:0;
+        left:0;
+        z-index: 200; /* 다른것보다 우선순위 빠르게 */
+        display: none; /* menu open누를때 생겨야하므로 평상시에는 none처리*/
+    }
+     /* 반응형 메뉴 처리 */
+    /* 오른쪽으로 세로방향 끝까지 메뉴생기도록*/
+    header nav{
+        background: #fff;
+        width:0%;
+        height: 100vh;
+        position: absolute;
+        right: 0;
+        top: 0;
+        
+        overflow: hidden;
+        transition: width 0.3s; z-index: 300; /* bg보다 우선순위 높도록 z-index 높게주고 width 부드럽게 처리*/
+    }
+      header nav.on{
+        width:60%;
+        max-width: 300px; /* 메뉴 최대폭*/
+     
+    }
+    header nav .close{
+        display: block; /* a로 감쌌기때문에*/
+        position: absolute; /* header를 기준으로 해서*/
+        right:10px;
+        top:0;
+        font-size: 35px;
+        padding-top: 5px;
+        box-sizing: border-box;
+    }
+       /* gnb 메뉴 위에서 떨어질수 있도록*/
+    header nav .gnb{
+     
+        margin-top: 100px;
+    }
+    
+    header nav .gnb li{
+        display: block;  /* 반응형 전에는 inline-block으로 되어있어서 가로로 배치했지만 block을 주어서 다시 세로로배치*/
+        width:100%;
+        margin: 0;  /* 반응형 전 원래 마진 들어있던거 뺐음*/
+        line-height: 60px;
+    }
+    /* header nav .gnb li에 width를 100%를 줬기 때문에 marign-left를 0으로 줘서 100% 넘지 않게하고,
+    대신 왼쪽으로 여백주기 위해 header nav .gnb li a에 padding-left를 30px만큼 준것*/
+    header nav .gnb li a{
+           font-family: 'Jal_Onuel';
+        width: 100%;
+        text-align: left;
+        padding-left:40px;
+        font-size:20px;
+    }
+    
+    header nav .gnb li a:after{
+        display: none;
+    }
+    
+    .login li{
+        top:50%;
+        transform: translateY(-15%);
+    }
+    
+    
+    .newImg-wrap:after{
+        padding-top:45px;
+        font-size:20px;
+    }
+    .text-box>div h4{
+        font-size:14px;
+    }
+    .price{
+        font-size:16px;
+    }
+    
+    .subscribe{
+    margin:0;
+        padding-top:60px; 
+       width:100%;
+         
+    }
+    
+    .subs-image{
+        
+        width:50%;
+    }
+    .subs-image img{
+        width: 100%;
+    }
+    
+    .sub-text{
+        padding-right: 10px;
+        margin:0;
+        
+        float: right;
+    }
+    
+    .sub-text>h2{
+         color: #f8b24f;
+        font-size:40px;
+        font-weight: bold;
+         font-family: 'S-CoreDream-3Light';
+            margin-bottom: 10px;
+    }
+    
+    .sub-text>span{
+               font-family: 'S-CoreDream-3Light';
+        font-size:24px;
+        margin-top:15px;
+        
+    }
+    
+    #subs_button{
+        width:100px;
+        font-size:15px;
+        height: 60px;
+    }
+    
+    footer{
+        text-align: center;
+    }
+}

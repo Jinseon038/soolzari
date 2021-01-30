@@ -1,0 +1,55 @@
+@charset "UTF-8";
+body .wrap2{
+	overflow: hidden;
+	width: 1200px;
+	margin: 0 auto;
+}
+.blankDiv{
+	width: 90%;
+	margin: 0 auto;
+}
+tr th{
+	text-align: center;
+}
+/* 버튼 아웃라인 쉐도우삭제----------------------------------------- */
+button:focus {
+	outline:0;
+}
+.btn:focus{
+	box-shadow: none;
+}
+/* 배너----------------------------------------- */
+.banner{
+	overflow: hidden;
+	background-color: rgb(232, 154, 173);
+	height: 200px;
+	line-height: 200px;
+	margin-bottom: 70px;
+}
+.bTDiv1{
+	float: left;
+	width: 70%;
+	text-indent: 100px;
+	font-size: 22px;
+}
+.bannerTitle{
+	text-decoration: none;
+	color: white;
+}
+.bannerTitle:hover{
+	text-decoration: none;
+	color: white;
+}
+.bTDiv2{
+	float: left;
+	width: 30%;
+}
+h1,h4{
+	margin: 0;
+}
+h5{
+	display: inline-block;
+	width: 100px;
+	text-align: center;
+	
+}

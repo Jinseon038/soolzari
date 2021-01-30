@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+.main {
+    text-align: center;
+    width: 1450px;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-bottom: 100px;
+}
+
+.main>img {
+	width: 150px;
+	display: block;
+	margin: 0 auto;
+	margin-top: 30px;
+}
+
+.main>div{
+	width: 650px;
+	height: 400px;
+	float: left;
+	border: 1px solid lightgray;
+	margin-top : 50px;
+	margin-left: 50px;
+}
+
+.chartTitle{
+    margin: 0 auto;
+    width: 240px;
+    border-bottom: 3px solid #4d5075;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+}
+.chart:first-child>.chartTitle{
+	margin-top: 20px;
+}
+.chart{
+    height: 200px;
+    box-sizing: border-box;
+}
+.type{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.chart>h2:first-of-type{
+    color: #4d5075;
+}
+.highlight{
+	margin:0 auto;
+	margin-top: 20px;
+	width: 200px;
+	background: linear-gradient(to top, yellow 50%, transparent 50%);
+}
+.bestGoods{
+	width: 300px;
+}
+.chart>h3{
+	margin: 0;
+	margin-top: 20px;
+	font-size: 20px;
+}
+section{
+	width: 1450px;
+	margin-left: 70px;
+}
+body{
+	width: 2000px;
+	height: 100vh;
+}

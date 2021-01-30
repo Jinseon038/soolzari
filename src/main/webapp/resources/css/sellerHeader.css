@@ -1,0 +1,237 @@
+ @charset "utf-8";
+
+    @font-face {
+        font-family: 'S-CoreDream-3Light';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    * {
+        font-family: 'S-CoreDream-3Light';
+        text-decoration: none !important;
+    }
+
+    a,
+    a:hover {
+        color: #4d5075;
+    }
+
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    .btn-primary {
+        background-color: #4d5075;
+    }
+
+
+    .seller_header {
+        background-color: #fdf4f4;
+        height: 75px;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        margin: 0 auto;
+        width: 100%;
+        min-width: 700px;
+        position: fixed;
+        box-shadow: 0px 1px 10px;
+        z-index: 1000;
+        overflow: hidden;
+    }
+
+    header {
+        height: 75px;
+        padding: 1rem;
+        color: #4d5075;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #content_box {
+        padding-top: 75px;
+        min-width: 1168px;
+        margin: 0 auto;
+        display: flex;
+        /*border:1px solid black;*/
+        width: 100%;
+        background-color: #fdf4f4;
+        overflow: hidden;
+    }
+
+    #left_bar {
+        width: 20%;
+        min-width: 250px;
+        display: block;
+        /*border:1px solid black;*/
+        background-color: #fdf4f4;
+        overflow: hidden;
+    }
+
+    #seller_footer {
+        display: block;
+        background-color: #f7b8b4;
+        text-align: center;
+        width: 100%;
+        height: 25px;
+        color: grey;
+        padding-left: 20px;
+        padding-right: 20px;
+        position: fixed;
+        bottom: 0;
+    }
+
+    #main_container {
+        width: 100%;
+        min-width: 1000px;
+        min-height: 800px;
+        display: block;
+        /*border:1px solid black;*/
+        background-color: #fdf4f4;
+        border-left: 1px solid grey;
+        overflow: hidden;
+    }
+
+    #main_content {
+        background-color: white;
+        width: 96%;
+        min-width: 1000px;
+        margin: 2% auto;
+        box-shadow: 5px 5px 5px grey;
+        display: block;
+        overflow: auto;
+    }
+	
+	hr{
+    	background-color: black;
+    }
+
+
+    #main_content>* {
+        color: #4d5075;
+    }
+    
+
+    ui {
+        list-style-type: none;
+    }
+
+    * {
+        text-decoration: none;
+    }
+
+    .wrapper {
+        display: block;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .mainMenu {
+        display: block;
+        overflow: hidden;
+    }
+
+    .item {
+        border-top: 1px solid #fdf4f4;
+        overflow: hidden;
+    }
+
+    .btn-left {
+        display: block;
+        padding: 15px 20px;
+        background-color: #f7b8b4;
+        color: #4d5075;
+        position: relative;
+
+    }
+
+
+    .subMenu {
+        background: #fdf4f4;
+        overflow: hidden;
+        transition: max-height 0.7s;
+        max-height: 0;
+    }
+
+    .subMenu a {
+        display: block;
+        padding: 15px 20px;
+        color: #4d5075;
+        font-size: 14px;
+        border-bottom: 1px solid white;
+        position: relative;
+
+    }
+
+    .subMenu a:before {
+        content: '';
+        opacity: 0;
+        transition: opacity 0.3s;
+
+    }
+
+    .subMenu a:hover:before {
+        margin-left: 5px;
+        margin-top: 16px;
+        content: '';
+        position: absolute;
+        height: 0;
+        width: 6px;
+        left: 0;
+        top: 0;
+        opacity: 1;
+        border-top: 8px solid transparent;
+        border-left: 10px solid white;
+        border-bottom: 8px solid transparent;
+    }
+
+    .subMenu a:after {
+        content: '';
+        opacity: 0;
+        transition: opacity 0.3s;
+
+    }
+
+
+    .subMenu a:hover {
+        background-color: #4d5075;
+        color: #fdf4f4;
+        transition: all 0.3s;
+        border-bottom: 1px solid white;
+    }
+
+    .subMenu a:last-child {
+        border: none;
+    }
+
+    .item:target .subMenu {
+        max-height: 10em;
+    }
+
+    header {
+        height: 75px;
+        padding: 1rem;
+        color: #4d5075;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    #page{
+    	width:100%;
+    	text-align:center;
+    	display:block;
+    	margin-bottom:30px;
+    }
+    
+    #page a{
+    	display:block;
+    	border: 1px solid black;
+    }

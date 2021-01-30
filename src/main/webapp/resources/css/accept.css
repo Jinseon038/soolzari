@@ -1,0 +1,192 @@
+@charset "utf-8";
+
+body{
+	width: 2000px;
+	height: 100vh;
+}
+        @font-face {
+            font-family: 'S-CoreDream-3Light';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        *{
+            font-family: 'S-CoreDream-3Light';
+        }
+        .navi>ul{
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+        }
+        .navi li{
+            list-style-type: none;
+            text-align: center;
+        }
+        .navi a{
+            text-decoration: none;
+            color: black;
+            display: inline-block;
+            width: 500px;
+            height: 50px;
+            line-height: 50px;
+            border-top: 1px solid lightgray;
+            border-bottom: 1px solid lightgray;
+            border-left: 1px solid lightgray;
+            box-sizing: border-box;
+        }
+        .navi li:last-child>a{
+            border-right: 1px solid lightgray;
+            box-sizing: border-box;
+        }
+        button{
+            width: 70px;
+            height: 31px;
+            background: #4d5075;
+            color: white;
+            border: 1px solid #4d5075;
+            box-sizing: border-box;
+            line-height: 27px;
+            cursor: pointer;
+            outline: none;
+        }
+        .reject, #allre, #partre{
+            width: 80px;
+            height: 31px;
+            background: #F16B6F;
+            color: white;
+            border: 1px solid #F16B6F;
+            box-sizing: border-box;
+            line-height: 27px;
+            cursor: pointer;
+            outline: none;
+        }
+        .accept, #partac, #allac{
+            width: 80px;
+            height: 31px;
+            background: #4F86C6;
+            color: white;
+            border: 1px solid #4F86C6;
+            box-sizing: border-box;
+            line-height: 27px;
+            cursor: pointer;
+        }
+        input[type="date"]{
+            border: none;
+            outline: none;
+            border: 1px solid lightgray;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            height: 30px;
+            box-sizing: border-box;
+        }
+        input[type="text"]{
+            border: none;
+            outline: none;
+            border: 1px solid lightgray;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            height: 30px;
+            box-sizing: border-box;
+            width: 240px;
+        }
+        table{
+            border-spacing: 0;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        th, td {
+            box-sizing: border-box;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid lightgray;
+            width: 250px;
+            text-align: center;
+        }
+        .funding th, td {
+            width: 200px;
+        }
+        th{
+            border-top: 3px solid #4d5075;
+        }
+        tr:last-child>td{
+            border-bottom: 3px solid #4d5075;
+        }
+        th:first-child, td:first-child{
+            width: 100px;
+        }
+        .searchbox tr:first-child>th, .searchbox tr:first-child>td{
+            border-top: 3px solid #4d5075;
+        }
+        .searchbox tr:last-child>th, .searchbox tr:last-child>td{
+            border-bottom: 3px solid #4d5075;
+        }
+        .searchbox td{
+            width: 400px;
+        }
+        .searchbox th{
+            border-top: none;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        .page a{
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            font-size: small;
+        }
+        .page a:hover{
+            color: #bca0c9;
+        }
+        .num:hover{
+            border-bottom: 3px solid #4d5075;
+        }
+        .page{
+            margin: 50px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 80px;
+        }
+        section{
+            width: 1200px;
+            margin: 0 auto;
+        }
+        .sel{
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            font-size: small;
+            color: #bca0c9;
+            font-weight: bold;
+            border-bottom: 3px solid #4d5075;
+        }
+        .mid{
+        	width: 1500px;
+            border-left: 1px solid lightgray;
+            border-right: 1px solid lightgray;
+            padding: 30px;
+            border-bottom: 1px solid lightgray;
+            box-sizing: border-box;
+            margin-bottom: 100px;
+        }
+        .navi .select{
+        	border-top: 3px solid #4d5075;
+        	line-height: 46px;
+        	border-bottom: none;
+        }
+        .accepttitle{
+        	margin-top: 100px;
+        	margin-bottom: 100px;
+        	font-size: 2em;
+        }
+        
+		section{
+			margin-left: 70px;
+		}

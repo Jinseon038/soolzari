@@ -1,0 +1,80 @@
+@charset "UTF-8";
+/* 주문 내역 리스트----------------------------------------- */
+.listTable{
+	width: 100%;
+}
+.th1 {
+	width: 65%;
+}
+.th2 {
+	width: 20%;
+}
+.th3 {
+	width: 15%;
+}
+
+/* 사이드메뉴 고정----------------------------------------- */
+.a6{
+	background-color: rgb(77, 80, 117);
+	color: white;
+}
+.questionBtn{
+	margin-left: 5px;
+	width: 100px;
+	height: 30px;
+	background-color: rgb(188, 160, 201);
+	color: white;
+	margin-bottom: 20px;
+	margin-right: 50px;
+	border: none;
+	outline: none;
+}
+.textRigth{
+	text-align: right;
+}
+
+.modal { 
+	text-align: center; 
+}
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+.modal-content {
+  height: auto;
+  min-height: 80%;
+}
+.modal-dialog{
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle; 
+  width: 80%;
+  height: 80%;
+  margin: 0;
+  padding: 0;
+  max-width: 700px;
+  
+}
+#dialog{
+	max-width: 700px;
+	max-height: 600px;
+}
+body .modal-dialog{
+	max-height: 600px;
+}
+
+.listTable .ans1{
+	color: rgb(77, 80, 117);
+}
+.listTable .ans2{
+	color: blue;
+}
+
+.listTable a:hover{
+	color: black;
+	font-weight: bold;
+}

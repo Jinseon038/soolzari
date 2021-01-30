@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="seller">
+  
+  <!-- sl = seller -->
+  <insert id="insertSeller" parameterType="sl">
+     insert into seller_db values(seller_db_seq.nextval, #{selId}, #{selPw}, #{selName}, #{selTel}, #{selAddr}, to_char(sysdate,'yyyy-mm-dd'))
+  </insert>
+  
+  <insert id="insertClass" parameterType="sellerClass">
+     insert into class_db values(class_seq.nextval, #{className}, #{selNo}, #{classDetail}, #{classPrice},#{classEnroll}, #{classStartTime}, 0,  #{classPerson},to_char(sysdate,'yyyy-mm-dd'))
+  </insert>
+  
+  <select id="selectOneSeller" parameterType="sl" resultType="sl">
+     select
+        sel_no as selNo,
+        sel_id as selId,
+        sel_pw as selPw,
+        sel_name as selName,
+        sel_tel as selTel,
+        sel_addr as selAddr,
+        sel_enroll as selEnroll
+     from seller_db where sel_id = #{selId}
+     <if test="selPw != null">
+     and sel_pw = #{selPw}
+     </if>
+  </select>
+  
+  <select id="checkId" parameterType="sl" resultType="sl">
+ 		select sel_id as selId from seller_db where sel_id=#{selId}
+ 	</select>
+  
+  <select id="getClassInfo" parameterType="int" resultType="sellerClass">
+  	select c1.cls_no as classNo, c1.cls_name as className, c1.sel_no as selNo, c1.cls_Det as classDetail, c1.cls_price as classPrice, c1.class_person as classPerson, 
+  	c1.class_enroll as classEnroll, c1.classstarttime as classStartTime, c1.status, c1.class_date as classDate , NVL(sum(c2.class_person),0) as classNow
+  	
+  	from class_db c1
+  	LEFT JOIN CLASS_LIST_DB c2 
+  	on cls_class_no=#{classNo}
+  	 	where cls_no=#{classNo} 
+  	group by c1.cls_no , c1.cls_name, c1.sel_no, c1.cls_det, c1.cls_price, c1.class_enroll, c1.classstarttime,c1.status,c1.class_person,c1.class_date
+ 
+  </select>
+  <select id="selectAllClass" parameterType="map" resultType="sellerClass">
+  select * from (select rownum as rnum, c.* from (select c.cls_no as classNo, c.cls_name as className, c.sel_no as selNo, c.cls_det as classDetail, c.cls_price as classPrice, c.class_enroll as classEnroll, c.classstarttime as classStartTime,
+  c.status as status,c.class_person as classPerson,c.class_date as classDate,sum(cl.class_person) as classNow
+from class_db c
+left join class_list_db cl on(cl.cls_class_no = c.cls_no) where c.sel_no = #{selNo}
+group by c.cls_no , c.cls_name, c.sel_no, c.cls_det, c.cls_price, c.class_enroll, c.classstarttime,c.status,c.class_person,c.class_date
+order by c.class_enroll)c) where rnum between #{start} and #{end}
+  </select>
+  
+  <select id="selectAllGoods" parameterType="map" resultType="sellerGoods">
+  select * from (select rownum as rnum, g.* from (
+     select
+        gds_no as gdsNo,
+        gds_name as gdsName,
+        gds_pri as gdsPri,
+        gds_bcnt as gdsBcnt,
+        sel_no as selNo,
+        status,
+        goods_date as goodsDate,
+        goods_type as goodsType
+     from goods_db where sel_no = #{selNo} order by 1 desc)g) where rnum between #{start} and #{end}
+  </select>
+  <select id="classTotalCount" parameterType="_int" resultType="_int">
+      select count(*) from class_db where sel_no=#{_parameter}
+   </select>
+   <select id="goodsTotalCount" parameterType="_int" resultType="_int">
+      select count(*) from goods_db where sel_no=#{_parameter}
+   </select>
+   
+   
+   <insert id="insertGoods" parameterType="sellerGoods">
+     insert into goods_db values(goods_db_seq.nextval, #{gdsName}, #{gdsPri}, #{gdsBcnt}, #{selNo}, 0, TO_CHAR(SYSDATE,'YYYY-MM-DD'),#{goodsType})
+  </insert>
+  <select id="searchLastGoods" resultType="_int">
+     select max(gds_no) from goods_db
+  </select>
+     <insert id="insertImage" parameterType="sellerImage">
+     insert into img_db values(img_db_seq.nextval, #{filepath}, #{filename}, #{imgType}, #{typeNo} )
+     </insert>
+     <select id="selectOneGoods" resultType="sellerGoods" parameterType="_int">
+     select * from goods_db where gds_no = #{gdsNo }
+     </select>
+     <select id="selectOneImageGoodsOne" resultType="sellerImage" parameterType="int">
+     select img_no as imgNo , filepath, filename, img_type as imgType, type_no as typeNo from img_db where type_no = #{No} and img_type = 'g'
+     </select>
+     <select id="selectOneImageGoodsTwo" resultType="sellerImage" parameterType="int">
+     select img_no as imgNo , filepath, filename, img_type as imgType, type_no as typeNo from img_db where type_no = #{No} and img_type = 'gd'
+     </select>
+     <select id="selectOneImageFundingOne" resultType="sellerImage" parameterType="int">
+     select img_no as imgNo , filepath, filename, img_type as imgType, type_no as typeNo from img_db where type_no = #{No} and img_type = 'f'
+     </select>
+     <select id="selectOneImageFundingTwo" resultType="sellerImage" parameterType="int">
+     select img_no as imgNo , filepath, filename, img_type as imgType, type_no as typeNo from img_db where type_no = #{No} and img_type = 'fd'
+     </select>
+     <select id="selectOneScore" resultType="sellerScore" parameterType="_int">
+     select avg(rev_score) as avgRevScore,count(rev_score) as countRevScore from review_db where rev_gdsno=#{gdsNo }
+     </select>
+     
+     <update id="updateGoods" parameterType="sellerGoods">
+     update goods_db set gds_name = #{gdsName}, gds_pri = ${gdsPri} where gds_no = ${gdsNo }
+     </update>
+     
+     <update id="updateClass" parameterType="sellerClass">
+     	update class_db set cls_name=#{className}, cls_det=#{classDetail}, cls_price=#{classPrice}, class_enroll=#{classEnroll}, classstarttime=#{classStartTime}, class_person=#{classPerson} 
+     	where cls_no=#{classNo}
+     </update>
+     
+     <delete id="deleteGoods" parameterType="int">
+     delete from goods_db where gds_no = #{temp}
+     </delete>
+     
+     <update id="mypageSellerUpdate" parameterType="sl">
+     	update seller_db set sel_name=#{selName}, sel_pw=#{selPw}, sel_tel=#{selTel}, sel_addr=#{selAddr} where sel_no=#{selNo}
+     </update>
+
+       <delete id="deleteClass" parameterType="int">
+     delete from class_db where cls_no = #{value}
+     </delete>
+
+     
+     <select id="selectAllFunding" parameterType="map" resultType="sellerFunding">
+  select * from (select rownum as rnum, f.* from (
+     select
+        fund_no as fundNo,
+        fund_name as fundName,
+        fund_money as fundMoney,
+        fund_chk as fundChk,
+        fund_det as fundDet,
+        status,
+        fund_date as fundDate,
+        sel_no as selNo,
+        fund_enrolldate as fundEnrollDate,
+        fund_enddate as fundEndDate
+     from funding_db where sel_no = #{selNo}
+     order by 1 desc)f) where (rnum between #{start} and #{end})
+  </select>
+  
+  	<select id="fundingTotalCount" parameterType="_int" resultType="_int">
+      select count(*) from funding_db where sel_no=#{_parameter}
+   </select>
+   
+   <select id="selectOneFunding" resultType="sellerFunding" parameterType="_int">
+   	select * from funding_db where fund_no=#{fundNo }
+   </select>
+   
+   <select id="selectAllFundingGoods" resultType="sellerFG" parameterType="_int">
+   	select * from fnd_gds_db where fund_no=#{fundNo }
+   </select>
+   
+   <insert id="insertFunding" parameterType="sellerFunding">
+   insert into funding_db values (funding_db_seq.nextval, #{fundName}, #{fundMoney}, #{fundChk}, #{fundDet}, #{status}, to_char(sysdate,'yyyy-mm-dd'), #{selNo}, #{fundEnrollDate}, #{fundEndDate})
+   </insert>
+   <select id="selectLastFunding" resultType="_int">
+     select max(fund_no) from funding_db
+  </select>
+  	<delete id="deleteFunding" parameterType="_int">
+  	delete from funding_db where fund_no = #{fundNo }
+  	</delete>
+  	
+  	<insert id="insertFundingGoods" parameterType="sellerFG">
+  	insert into fnd_gds_db values (fund_gds_seq.nextval, #{fundNo}, #{fndGName}, #{fndGCon}, #{fndGPri})
+  	</insert>
+  	
+  	<update id="updateGdsDStatus" parameterType="map">
+  	update goods_list_db set gds_d_status = #{gdsDStatus } where gds_l_no = #{gdsLNo }
+  	</update>
+  	<select id="selectPurNo" parameterType="_int" resultType="_int">
+  	select pur_no from goods_list_db where gds_l_no = #{gdsLNo }
+  	</select>
+  	<update id="updatePurchaseStatus" parameterType="_int">
+  	update purchase_db set pur_cancel = 1 where pur_no = #{purNo }
+  	</update>
+  	<select id="selectAllGoodsList" parameterType="map" resultType="sellerGL">
+  	select * from(
+  		select rownum as rnum, g.* from(
+  			select gds_l_no as gdsLNo,
+  			pur_no as purNo,
+  			pur_get as purGet,
+  			gds_no as gdsNo,
+  			gds_l_price * gds_l_cnt as gdsLPrice,
+  			gds_d_status as gdsDStatus,
+  			sel_no as selNo
+  		from goods_list_db join purchase_db using(pur_no) join goods_db using(gds_no)
+  		where (gds_d_status in (0,2,3,4,5) and (sel_no = #{selNo})) order by 1 desc)g)
+  	where rnum between #{start} and #{end}
+  	</select>
+  	<select id="goodsListTotalCount" parameterType="_int" resultType="_int">
+  	  	select count(*) from goods_list_db join purchase_db using(pur_no) join goods_db using(gds_no) where  (gds_d_status in (0,2,3,4,5)) and (sel_no = #{selNo})
+  	</select>
+  	
+  	<select id="selectAllFundingList" parameterType="map" resultType="sellerFL">
+  	select * from (select rownum as rnum, f.* from (
+     select
+        fdb.fnd_d_no as fndDNo,
+        fd.fund_name as fundName,
+        fd.fund_no as fundNo,
+        fdb.fnd_d_price as fndDPrice,
+        fnd_g_no as fndGNo,
+        fgd.fnd_g_name as fndGName,
+        fdb.fnd_d_status as fndDStatus,
+        cd.cli_id as cliId,
+        sel_no
+     from fnd_det_db fdb
+     join funding_db fd on (fdb.fund_no = fd.fund_no)
+     join client_db cd on (fdb.fnd_d_cli = cd.cli_no)
+     join fnd_gds_db fgd using(fnd_g_no)
+     where (fnd_d_status <![CDATA[>]]> 0 and fnd_d_status <![CDATA[<]]> 5) order by 1 desc)f)
+     where (rnum between #{start} and #{end}) and sel_no=#{selNo}
+  	</select>
+  	<select id="fundingListTotalCount" resultType="_int" parameterType="_int">
+  	select count(*) from fnd_det_db fdb join funding_db fd on (fdb.fund_no = fd.fund_no) join client_db cd on (fdb.fnd_d_cli = cd.cli_no) join fnd_gds_db fgd using(fnd_g_no) where (fnd_d_status <![CDATA[>]]> 0 and fnd_d_status <![CDATA[<]]> 5) and sel_no=#{selNo}
+  	</select>
+  	<update id="updateFndDStatus" parameterType="map">
+  	update fnd_det_db set fnd_d_status = #{fndDStatus } where fnd_d_no = #{fndDNo }
+  	</update>
+</mapper>

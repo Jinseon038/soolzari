@@ -1,0 +1,149 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'S-CoreDream-3Light';
+}
+
+body{
+	width: 2000px;
+	height: 100vh;
+}
+
+.qna{
+	border-spacing: 0;
+	text-align: center;
+	
+}
+
+.qna th{
+    background: #4d5075;
+    color: white;
+    width: 150px;
+    box-sizing: border-box;
+    height: 50px;
+    line-height: 50px;
+}
+
+.qna td {
+    width: 150px;
+    box-sizing: border-box;
+    height: 50px;
+    line-height: 50px;
+    border-top: 1px solid lightgray;
+}
+
+.qna th:nth-child(3),
+.qna td:nth-child(3) {
+    width: 500px;
+}
+
+.qna tr:last-child>td {
+    border-bottom: 1px solid lightgray;
+}
+
+select {
+    border: 1px solid lightgray;
+    height: 30px;
+    outline: none;
+    width: 70px;
+}
+
+input[type="text"] {
+    border: 1px solid lightgray;
+    height: 27px;
+    width: 300px;
+    outline: none;
+}
+
+input[type="submit"],
+button {
+    width: 70px;
+    height: 31px;
+    background: #4d5075;
+    color: white;
+    border: 1px solid #4d5075;
+    box-sizing: border-box;
+    line-height: 27px;
+    cursor: pointer;
+    outline: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.page a {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: small;
+}
+
+.page a:hover {
+    color: #bca0c9;
+}
+
+.num:hover {
+    border-bottom: 3px solid #4d5075;
+}
+
+.page {
+    margin: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.qnasect {
+    width: 1200px;
+    margin-top: 100px;
+    margin-left: 250px;
+}
+
+.sel {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: small;
+    color: #bca0c9;
+    font-weight: bold;
+    border-bottom: 3px solid #4d5075;
+}
+
+.wrap {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+.qnatitle{
+    text-align: center;
+    margin-bottom: 100px;
+    font-size: 2em;
+}
+.qna span{
+    font-size: small;
+    margin-left: 10px;
+    color: #f7b8b4;
+}
+.wrap>label{
+	display: inline-block;
+	width: 80px;
+}
+.ansBefore{
+	color: #F16B6F;
+	font-weight: bold;
+}
+.ansAfter{
+	color: #4F86C6;
+	font-weight: bold;
+}

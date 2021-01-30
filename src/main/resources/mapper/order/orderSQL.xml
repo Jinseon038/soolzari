@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="order">
+	<select id="basketSelect" parameterType="map" resultType="_int">
+		select count(*) from basket_db where cli_no=#{cliNo} and gds_no=#{gdsNo}
+	</select>
+	<update id="basketUpdate" parameterType="map">
+		update basket_db set bas_cnt=bas_cnt+#{basCnt} where cli_no=#{cliNo} and gds_no=#{gdsNo}
+	</update>
+	<insert id="basketInsert" parameterType="map">
+		insert into basket_db values(basket_seq.nextval,#{gdsNo},#{cliNo},#{basCnt})
+	</insert>
+	<select id="basketAllSelect" parameterType="_int" resultType="b">
+		select
+			bas_no as basNo,
+			gds_no as gdsNo,
+			cli_no as cliNo,
+			bas_cnt as basCnt
+		from basket_db
+		where cli_no=#{_parameter} order by bas_no desc
+	</select>
+	<select id="goodsBasketSelect" parameterType="_int" resultType="g2">
+		select
+			gds_no as gdsNo,
+			gds_name as gdsName,
+			gds_pri as gdsPri,
+			gds_bcnt as gdsBcnt,
+			sel_no as selNo
+		from goods_db
+		where gds_no=#{_parameter}
+	</select>
+	<update id="basketPlusMinusUpdate" parameterType="map">
+		<choose>
+			<when test="chk==0">
+				update basket_db set bas_cnt=bas_cnt-1 where bas_no=#{basNo}
+			</when>
+			<otherwise>
+				update basket_db set bas_cnt=bas_cnt+1 where bas_no=#{basNo}
+			</otherwise>
+		</choose>
+	</update>
+	
+	<delete id="basketDelete" parameterType="list">
+		delete from basket_db 
+			where bas_no in
+			<foreach collection="list" item="basNo" open="(" close=")" separator=",">
+				#{basNo}
+			</foreach>
+	</delete>
+	
+	<select id="memberInfoSelect" parameterType="_int" resultType="c2">
+		select 
+			cli_no as cliNo,
+			cli_id as cliId,
+			cli_pw as cliPw,
+			cli_name as cliName,
+			cli_tel as cliTel,
+			cli_addr as cliAddr,
+			cli_email as cliEmail,
+			cli_rank as cliRank,
+			cli_enroll as cliEnroll,
+			cli_point as cliPoint,
+			cli_age as cliAge
+		 from client_db where cli_no=#{_parameter}
+	</select>
+	
+	<update id="clientAddrUpdate" parameterType="c2">
+		update client_db set cli_addr=#{cliAddr} where cli_no=#{cliNo}
+	</update>
+	
+	<select id="paymentBasketSelect" parameterType="_int" resultType="b">
+		select
+			bas_no as basNo,
+			gds_no as gdsNo,
+			cli_no as cliNo,
+			bas_cnt as basCnt
+		from basket_db
+		where bas_no=#{_parameter}
+	</select>
+	
+	<insert id="purchaseInsert" parameterType="purchase">
+		insert into purchase_db values(PURCHASE_SEQ.NEXTVAL,#{purTtp},#{purGet},0,#{cliNo},#{purDate})
+	</insert>
+	
+	<select id="purchaseNoSelect" parameterType="_int" resultType="_int">
+		select MAX(pur_no) from purchase_db where cli_no=#{_parameter}
+	</select>
+	
+	<insert id="goodsListInsert" parameterType="goodsList">
+		insert into goods_list_db values(goods_list_seq.nextval,#{purNo},#{gdsNo},#{gdsLPrice},#{gdsLCnt},0)
+	</insert>
+	
+	<update id="pointUpdate" parameterType="c2">
+		update client_db set cli_point=cli_point-#{cliPoint} where cli_no=#{cliNo}
+	</update>
+	
+	<!-- 구매후에 장바구니에서 상품삭제 -->
+	<delete id="basketGoodsDelete" parameterType="BasketDel">
+		delete from basket_db where cli_no=#{cliNo} and gds_no in
+			<foreach collection="gdsNoList" item="gdsNo" open="(" close=")" separator=",">
+				#{gdsNo}
+			</foreach>
+	</delete>
+	
+	<!-- 상품상세페이지 -->
+	<select id="oGoodsDetail" parameterType="_int" resultType="GoodsSellerDetail">
+		select 
+		    g.gds_no as gdsNo,
+		    g.gds_name as gdsName,
+		    g.gds_pri as gdsPri,
+		    g.gds_bcnt as gdsBcnt,
+		    g.goods_date as goodsDate,
+		    s.sel_no as selNo,
+		    s.sel_name as selName,
+		    s.sel_tel as selTel,
+		    s.sel_addr as selAddr,
+		    i.img_type as imgType,
+		    i.filepath,
+		    I.FILENAME
+		from goods_db g, seller_db s, img_db i
+		where g.sel_no=s.sel_no and img_type in ('g','gd') and i.type_no=#{gdsNo} and g.gds_no=#{gdsNo} order by imgType
+	</select>
+	
+	<!-- 펀딩상세페이지 - 펀딩정보 -->
+	<select id="fundingSelect" parameterType="_int" resultType="fundingImg">
+		SELECT 
+		    f.fund_no as fundNo,
+		    f.fund_name as fundName,
+		    f.fund_money as fundMoney,
+		    f.fund_chk as fundChk,
+		    f.fund_det as fundDet,
+		    f.status,
+		    f.fund_date as fundDate,
+		    f.sel_no as selNo,
+		   	f.fund_enrollDate as fundEnrollDate,
+		    f.fund_enddate as fundEndDate,
+            i.img_type as imgType,
+		    i.filepath,
+		    i.FILENAME,
+		    (select sum(fnd_d_price) from FND_DET_DB where fund_no=#{_parameter}) as fundTotalMoney
+		FROM FUNDING_DB f, img_db i where img_type in('f','fd') and i.type_no=#{_parameter} and f.fund_no=#{_parameter} order by imgType
+	</select>
+	
+	<!-- 펀딩상세페이지 - 펀딩상품정보 -->
+	<select id="fundingGoodsSelect" parameterType="_int" resultType="fundingGoods">
+		SELECT 
+			fund_no as fundNo,
+		    fnd_g_no as fndGNo,
+		    fnd_g_name as fndGName,
+		    fnd_g_con as fndGCon,
+		    fnd_g_pri as fndGPri
+		FROM fnd_gds_db where fund_no=#{_parameter}
+	</select>
+	
+	<!-- 펀딩 상세->후원하기버튼클릭 시 insert -->
+	<insert id="fundReservationInsert" parameterType="fundDetailDB">
+		insert into fnd_det_db values(FUND_DET_SEQ.NEXTVAL,#{fundNo},#{fndDCli},#{fndDPrice},#{fndGNo},0,null,to_char(sysdate,'yyyymmddhh24miss'),0,null)
+	</insert>
+	
+	<!-- 같은펀딩을 후원했는지 안했는지 확인 -->
+	<select id="fundDetOverlapChk" parameterType="map" resultType="_int">
+		select count(*) from fnd_det_db where fnd_d_cli=#{cliNo} and fund_no=#{fundNo}
+	</select>
+	
+	<!-- 펀딩 상세->후원하기버튼클릭 시 목표달성 시 update -->
+	<update id="fundChkUpdate" parameterType="_int">
+		update funding_db set fund_chk=1 where fund_no=(select fund_no from funding_db where fund_money &lt; (select sum(fnd_d_price) as sumprice 
+        from fnd_det_db group by fund_no having fund_no=#{_parameter}) and fund_no=#{_parameter})
+	</update>
+	
+	<!-- 상품 구매시 카운트 증가goods테이블 (gds_bcnt컬럼) -->
+	<update id="gdsBcntUpdate" parameterType="map">
+		update goods_db set gds_bcnt=gds_bcnt+#{gdsLCnt} where gds_no=#{gdsNo}
+	</update>
+	
+</mapper>

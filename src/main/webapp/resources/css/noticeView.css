@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'S-CoreDream-3Light';
+}
+body{
+	width: 2000px;
+	height: 100vh;
+}
+.view{
+	margin-left: 250px;
+}
+
+.notice,
+.btns {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.notice tr {
+    display: block;
+    border-top: 1px solid lightgray;
+}
+
+.notice th,
+td {
+    width: 150px;
+    box-sizing: border-box;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.btns button {
+    width: 70px;
+    height: 31px;
+    background: #4d5075;
+    color: white;
+    border: 1px solid #4d5075;
+    box-sizing: border-box;
+    line-height: 27px;
+    cursor: pointer;
+    outline: none;
+}
+
+.noticetitle {
+    text-align: center;
+    font-size: 2em;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    border: none;
+    outline: none;
+    text-align: center;
+    border: 1px solid lightgray;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 40px;
+    box-sizing: border-box;
+    width: 300px;
+}
+
+.notice td {
+    text-align: left;
+}
+
+.btns {
+    display: flex;
+}
+
+.btn2 {
+    width: 1200px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn2 > button {
+    margin-left: 10px;
+}
+
+.note-editor .note-editable {
+    line-height: 1;
+}
+
+.notice .readonly{
+	background-color: whitesmoke;
+	border: none;
+}
+input[name='noticeTitle']{
+	width: 750px;
+}

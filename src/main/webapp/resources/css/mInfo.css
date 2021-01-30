@@ -1,0 +1,54 @@
+@charset "UTF-8";
+.allInfoDiv{
+	padding-left: 20px;
+	margin-bottom: 100px;
+}
+input{
+	outline: none;
+}
+/* 배너----------------------------------------- */
+.bannerTitle:hover{
+	color: white;
+	text-decoration: none;
+}
+/* 사이드메뉴 고정----------------------------------------- */
+.a7{
+	background-color: rgb(77, 80, 117);
+	color: white;
+}
+
+/* 테이블----------------------------------------- */
+th{
+	width: 20%;
+	text-align: center;
+}
+.td3{
+	width: 10%;
+}
+.table tr:first-child>td, .table tr:first-child>th {
+	border-top: 1px solid gray;
+}
+tr:last-child {
+	border-bottom: 1px solid #dee2e6;
+}
+/* 테이블끼리 간격----------------------------------------- */
+.infoDiv{
+	margin-bottom: 60px;
+}
+.nonAddrDiv{
+	text-align: center;
+}
+
+/* '수정' 버튼색----------------------------------------- */
+.btnDiv{
+	text-align: center;
+}
+.btnDiv .updateBtn{
+	background-color: rgb(188, 160, 201);
+	color: white;
+	width: 200px;
+	font-size: 20px;
+}
+.btnDiv .updateBtn:hover {
+	color: white;
+}

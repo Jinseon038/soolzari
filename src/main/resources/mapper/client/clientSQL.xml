@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="client">
+
+
+<insert id="insertClient" parameterType="c">
+ 		insert into client_db 
+ 		(cli_no,cli_id,cli_pw,cli_name,cli_tel,cli_addr,cli_email,cli_rank,cli_enroll,cli_point,cli_age
+ 	
+ )
+ 		select client_seq.nextval, #{clientId}<choose>
+ 		<when test="clientPw!=null">
+ 		,#{clientPw}
+ 		</when>
+ 		<otherwise>
+ 			,'sns'
+ 		</otherwise>
+ 		</choose>,	#{clientName}
+ 		<choose>
+ 			<when test="clientTel!=null">
+ 			,#{clientTel}
+ 			</when>
+ 			<otherwise>
+ 			,'sns'
+ 			</otherwise>
+ 		</choose>
+ 				<choose>
+ 		<when test="clientAddr!=null">
+ 		
+ 		,#{clientAddr}
+ 		</when>
+ 		<otherwise>
+ 		,'sns'
+ 		</otherwise>
+ 		</choose>, #{clientEmail},'0',to_char(sysdate,'yyyy-mm-dd'),'3000',#{clientAge} from dual
+ 		where not exists( select cli_id from client_db where cli_id=#{clientId})
+ 		
+ 	</insert>
+ 	
+ 	<!-- DB 컬럼명이랑 VO 변수랑 다르면 AS 꼭쓰자 같으면 안써도된다 -->
+ 	<select id="checkId" parameterType="c" resultType="c">
+ 		select CLI_ID as clientId from client_db where CLI_ID=#{clientId}
+ 	</select>
+ 	
+ 	<select id="selectOneClient" parameterType="c" resultType="c">
+ 		select CLI_ID as clientId, CLI_NO as clientNo, CLI_NAME as clientName, CLI_EMAIL as clientEmail, CLI_TEL as clientTel, CLI_ADDR as clientAddr, CLI_RANK as clientRank,CLI_POINT as clientPoint from client_db where CLI_ID=#{clientId} and CLI_PW=#{clientPw}
+ 	</select>
+ 	
+ 	
+ 	<insert id="reservationClass" parameterType="r">
+ 		insert into class_db values(class_db_seq.nextval, #{className},#{classCreator},#{classDescription},#{classPrice},#{classPerson},#{classEnroll})
+ 	</insert>
+ 	
+ 	<select id="getClassInfo" parameterType="r" resultType="r">
+ 		select cls_no as classNo, cls_name as className, sel_no as classCreator, cls_det as classDescription, cls_price as classPrice, class_person as classPerson, class_enroll as classDate, classStarttime as classStartTime from class_db  where class_enroll>TO_CHAR(SYSDATE,'yyyy-mm-dd') and status=1
+ 	</select>
+ 	
+ 	<select id="getClassNo" parameterType="map" resultType="Integer">
+ 		select  class_person as classPerson from class_db where cls_name=#{title} and class_enroll=#{date} and status=1
+ 	</select>
+ 	
+ 	<select id="sumPerson" parameterType="int" resultType="Integer">
+ 	<!-- null일경우 NVL 함수 사용 -->
+ 		select NVL(sum(class_person),0)as classPerson from class_list_db where cls_class_no=#{classNo} 
+ 	</select>
+ 	
+ 	<select id="getEnroll" parameterType="Integer" resultType="string">
+ 		select class_enroll as classDate from class_db where cls_no=#{classNo} and status=1
+ 	</select>
+ 	
+ 	<select id="getNewProduct" resultType="g">
+ 		select goodsNo,  goodsName,  goodsPrice,  goodsCount, imagePath
+ 		 from (select g.gds_no as goodsNo, g.gds_name as goodsName, g.gds_pri as goodsPrice, g.GDS_BCNT as goodsCount, i.filepath as imagePath
+ 		 from goods_db g,img_Db i where i.type_no=g.gds_no and i.img_type='g' order by rownum DESC) <![CDATA[ where rownum<5]]>
+ 	</select>
+ 	
+ 	<insert id="setClass_list" parameterType="map">
+ 		
+ 		insert into class_list_db (cls_l_no, cls_cli_no, cls_class_no, class_person, class_check, class_payment) select class_list_db_seq.nextval, #{clientNo}, #{classNo}, #{classPerson}, 0, #{classPayment} from dual where not exists(select cls_class_no as classNo from class_list_db where cls_cli_no=#{clientNo} and cls_class_no=#{classNo})
+ 	</insert>
+ 	
+ 	<select id="getGoods" parameterType="string" resultType="g">
+select g.gds_no as goodsNo, g.gds_name as goodsName, g.gds_pri as goodsPrice, g.GDS_BCNT as goodsCount, i.FILEPATH as imagePath, ROUND(AVG(NVL(r.rev_score,0)),1) as reviewScore
+from goods_db g
+left join review_db r  on(g.gds_no=r.rev_gdsno)
+left join img_db i on (g.gds_no = i.type_no)
+where i.IMG_TYPE='g' and g.status=1
+<if test="value !=null">
+
+	and g.gds_name like '%'||#{value}||'%'
+</if>
+
+group by g.gds_no, g.gds_name, g.gds_pri, g.GDS_BCNT, i.FILEPATH, r.rev_gdsno
+order by g.gds_no DESC
+ 	</select>
+ 	
+ 	<select id="getTakju" resultType="g">
+select g.gds_no as goodsNo, g.gds_name as goodsName, g.gds_pri as goodsPrice, g.GDS_BCNT as goodsCount, i.FILEPATH as imagePath, ROUND(AVG(NVL(r.rev_score,0)),1) as reviewScore
+from goods_db g
+left join review_db r  on(g.gds_no=r.rev_gdsno)
+left join img_db i on (g.gds_no = i.type_no)
+where i.IMG_TYPE='g'  and g.goods_type='t' and g.status=1
+group by g.gds_no, g.gds_name, g.gds_pri, g.GDS_BCNT, i.FILEPATH, r.rev_gdsno
+order by g.gds_no DESC
+ 	</select>
+ 	
+ 	 	<select id="getCheongju" resultType="g">
+select g.gds_no as goodsNo, g.gds_name as goodsName, g.gds_pri as goodsPrice, g.GDS_BCNT as goodsCount, i.FILEPATH as imagePath, ROUND(AVG(NVL(r.rev_score,0)),1) as reviewScore
+from goods_db g
+left join review_db r  on(g.gds_no=r.rev_gdsno)
+left join img_db i on (g.gds_no = i.type_no)
+where i.IMG_TYPE='g'  and g.goods_type='c' and g.status=1
+group by g.gds_no, g.gds_name, g.gds_pri, g.GDS_BCNT, i.FILEPATH, r.rev_gdsno
+order by g.gds_no DESC
+ 	</select>
+ 		<select id="getSpirits" resultType="g">
+select g.gds_no as goodsNo, g.gds_name as goodsName, g.gds_pri as goodsPrice, g.GDS_BCNT as goodsCount, i.FILEPATH as imagePath, ROUND(AVG(NVL(r.rev_score,0)),1) as reviewScore
+from goods_db g
+left join review_db r  on(g.gds_no=r.rev_gdsno)
+left join img_db i on (g.gds_no = i.type_no)
+where i.IMG_TYPE='g'  and g.goods_type='s' and g.status=1
+group by g.gds_no, g.gds_name, g.gds_pri, g.GDS_BCNT, i.FILEPATH, r.rev_gdsno
+order by g.gds_no DESC
+ 	</select>
+ 	
+ 	<select id="getWine" resultType="g">
+select g.gds_no as goodsNo, g.gds_name as goodsName, g.gds_pri as goodsPrice, g.GDS_BCNT as goodsCount, i.FILEPATH as imagePath, ROUND(AVG(NVL(r.rev_score,0)),1) as reviewScore
+from goods_db g
+left join review_db r  on(g.gds_no=r.rev_gdsno)
+left join img_db i on (g.gds_no = i.type_no)
+where i.IMG_TYPE='g'  and g.goods_type='w' and g.status=1
+group by g.gds_no, g.gds_name, g.gds_pri, g.GDS_BCNT, i.FILEPATH, r.rev_gdsno
+order by g.gds_no DESC
+ 	</select>
+ 	<select id="getFruit" resultType="g">
+select g.gds_no as goodsNo, g.gds_name as goodsName, g.gds_pri as goodsPrice, g.GDS_BCNT as goodsCount, i.FILEPATH as imagePath, ROUND(AVG(NVL(r.rev_score,0)),1) as reviewScore
+from goods_db g
+left join review_db r  on(g.gds_no=r.rev_gdsno)
+left join img_db i on (g.gds_no = i.type_no)
+where i.IMG_TYPE='g'  and g.goods_type='f' and g.status=1
+group by g.gds_no, g.gds_name, g.gds_pri, g.GDS_BCNT, i.FILEPATH, r.rev_gdsno
+order by g.gds_no DESC
+ 	</select>
+ 	
+ 	<select id="getFund" resultType="f">
+		SELECT FUND_NO as fundNo,FUND_NAME as fundName,FUND_MONEY as fundMoney,FILEPATH as imagePath,FUND_ENROLLDATE as fundEnrollDate, FUND_ENDDATE as fundEndDate,NVL(SUM(FND_D_PRICE),0) as fundMoneyNow, fund_chk FROM FUNDING_DB F1
+		LEFT JOIN FND_DET_DB F2 USING(FUND_NO)
+		LEFT JOIN IMG_DB ON (FUND_NO = TYPE_NO)
+		WHERE IMG_TYPE='f' and status=1 
+		GROUP BY (FUND_NO,FUND_NAME,FUND_MONEY,FILENAME,FILEPATH, FUND_ENROLLDATE, FUND_ENDDATE, fund_chk)
+		ORDER BY 5
+ 	</select>
+ 	
+	<select id="checkUsergrade" parameterType="string" resultType="int">
+		select cli_rank from client_db where cli_id=#{id}
+	</select>
+ 	
+ 	<update id="setUsergrade" parameterType="map">
+ 		update client_db set cli_rank =#{grade} where cli_id=#{id}
+ 	</update>
+ 	
+ 	<select id="checkUser" parameterType="cl" resultType="cl">
+ 		select cls_l_no as classListNo  from class_list_db where cls_cli_no=#{clientNo} and cls_class_no=#{classNo}
+ 	</select>
+ 	
+ 	<select id="findSeller" parameterType="Integer" resultType="string">
+ 		select sel_name as selName from seller_db where sel_no=#{selNo}
+ 	</select>
+ 	
+ 	<select id="searchId" parameterType="map" resultType="string">
+ 		select cli_id as clientId from client_db where cli_name=#{name} and cli_email=#{email}
+ 	</select>
+
+<select id="searchPw" parameterType="map" resultType="string">
+ 		select cli_pw as clientPw  from client_db where cli_id=#{id} and cli_email=#{email}
+ 	</select>
+ 	
+ 	<update id="setPw" parameterType="map">
+ 		update client_Db set cli_pw=#{pw} where cli_id=#{id}
+ 	</update>
+ 	
+ 	<insert id="insertComment" parameterType="fr">
+ 		insert into review_Db values(review_seq.nextval, 0, #{commentContent}, #{commentWriter}, to_char(sysdate, 'yyyy-mm-dd'), #{commentRate},#{fundNo} ,#{commentWriterName}) 
+ 	</insert>
+ 	 <insert id="insertComment1" parameterType="fr">
+ 		insert into review_Db values(review_seq.nextval, #{goodNo}, #{commentContent}, #{commentWriter}, to_char(sysdate, 'yyyy-mm-dd'), #{commentRate},0 ,#{commentWriterName})
+ 	</insert>
+ 	<select id="getReview" parameterType="integer" resultType="fr">
+ 		select rev_no as reviewNo, rev_GDSNO as goodNo, rev_con as commentContent, rev_writer as commentWriter, rev_enroll as reviewDate, 
+ 		rev_score as commentRate, rev_fundno as fundNo, rev_writername as commentWriterName from review_db where rev_fundno=#{fundNo} order by rev_no desc
+ 	</select>
+ 	
+ 	<select id="getReview1" parameterType="integer" resultType="fr">
+ 		select rev_no as reviewNo, rev_GDSNO as goodNo, rev_con as commentContent, rev_writer as commentWriter, rev_enroll as reviewDate, rev_score as commentRate, rev_fundno as fundNo, rev_writername as commentWriterName from review_db 
+ 		where rev_gdsno=#{gdsNo} order by rev_no desc
+ 	</select>
+ 	<update id="modifyComment" parameterType="fr">
+ 		update review_db set rev_con=#{commentContent} where rev_no=#{reviewNo}
+ 	</update>
+ 	
+ 	<delete id="deleteCommnet" parameterType="fr">
+ 		delete from review_db where rev_no=#{reviewNo}
+ 	</delete>
+</mapper>

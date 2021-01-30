@@ -1,0 +1,118 @@
+@charset "UTF-8";
+/* 배너----------------------------------------- */
+.bTDiv2>h5:nth-child(2){
+	color: white;
+}
+.bTDiv2>h5:nth-child(2){
+	color: white;
+}
+/* 배송지 정보----------------------------------------- */
+.subTitle{
+	margin-bottom: 20px;
+}
+.atd2{
+	width: 80%;
+}
+th{
+	text-align: center;
+}
+.table tr:first-child>td, .table tr:first-child>th {
+	border-top: 1px solid gray;
+}
+tr:last-child {
+	border-bottom: 1px solid #dee2e6;
+}
+
+.addr{
+	display: inline-block;
+	margin: 0;
+}
+
+.info{
+	margin-bottom: 100px;
+}
+/* 주문상품 정보----------------------------------------- */
+.th1{
+	width: 70%;
+}
+.th2{
+	width: 15%;
+}
+.th3{
+	width: 15%;
+}
+.td2, .td3 {
+	text-align: center;
+}
+.btnTd{
+	text-align: right;
+}
+/* 할인 및 쿠폰----------------------------------------- */
+.coupon{
+	display: inline-block;
+	margin: 0;
+	color: red;
+}
+.myPoint{
+	display: inline-block;
+	margin: 0;
+}
+input[name=usePoint]{
+	width: 150px;
+	color: red;
+}
+/* 결제 정보----------------------------------------- */
+.price{
+	font-weight: bold;
+	font-size: 30px;
+	color: rgb(77, 80, 117);
+	height: 240px;
+	line-height: 240px;
+	width: 65%;
+	text-indent: 200px;
+}
+.totalPrice{
+	display: inline-block;
+}
+.totalTd {
+	text-align: right;
+}
+.totalPrice{
+	display: inline-block;
+	font-weight: bold;
+	font-size: 30px;
+	color: rgb(77, 80, 117);
+	margin: 0;
+}
+
+.pp{
+	display: inline-block;
+	width: 30%;
+}
+.priceData{
+	display: inline-block;
+	width: 63%;
+	text-align: right;
+}
+/* 버튼----------------------------------------- */
+.btnDiv{
+	text-align: center;
+}
+.bt{
+	width: 200px;
+	height: 50px;
+	line-height: 50px;
+	padding: 0;
+	border-radius: 5px;
+}
+.keepBtn{
+	border: 1px solid rgb(232, 154, 173);
+	color: rgb(232, 154, 173);
+	background-color: white;
+	
+}
+.orderBtn{
+	border: 1px solid rgb(232, 154, 173);
+	background-color: rgb(232, 154, 173);
+	color: white;
+}

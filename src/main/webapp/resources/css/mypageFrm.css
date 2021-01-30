@@ -1,0 +1,293 @@
+@charset "UTF-8";
+body a{
+	text-decoration: none;
+}
+body .wrap2{
+	overflow: hidden;
+	width: 1200px;
+	margin: 0 auto;
+}
+.sideNavi{
+	margin-top: 250px;
+	float: left;
+	width: 15%;
+}
+.content{
+	float: left;
+	width: 85%;
+}
+/* 버튼 아웃라인삭제----------------------------------------- */
+body button:focus {
+	outline:0;
+}
+body .btn:focus{
+	box-shadow: none;
+}
+body a:hover{
+	text-decoration: none;
+}
+/* 배너----------------------------------------- */
+.content>.banner{
+	width: 100%;
+	text-indent: 100px;
+	height: 200px;
+	background-color: rgb(188, 160, 201);
+	line-height: 200px;
+	font-size: 22px;
+}
+body .bannerTitle{
+	text-decoration: none;
+	color: white;
+	font-size: 30px;
+}
+body .bannerTitle:hover{
+	text-decoration: none;
+	color: white;
+}
+
+/* 사이드네비----------------------------------------- */
+.sideNaviUl{
+	list-style-type: none;
+	font-weight: bold;
+	padding: 0;
+}
+.sideNaviTop{
+	text-decoration: none;
+	display: block;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	color: rgb(77, 80, 117);
+	text-indent: 30px;
+}
+.sideNaviTop:hover{
+	color: rgb(77, 80, 117);
+}
+.sideNaviUl>li{
+	padding-left: 30px;
+}
+
+.sideNaviA{
+	text-decoration: none;
+	color: black;
+	display: block;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-indent: 15px;
+}
+.sideNaviA:hover{
+	background-color: rgb(77, 80, 117);
+	color: white;
+}
+/* TopContent 구독,포인트,쿠폰----------------------------------------- */
+.topContent, .mainContent{
+	padding-left: 20px;
+	font-size: 20px;
+}
+.contentTitle{
+	text-indent: 15px;
+	margin-top: 50px;
+}
+.fixContent{
+	border: 5px solid lightgray;
+	margin: 30px;
+	margin-bottom: 70px;
+	overflow: hidden;
+	height: 160px;
+}
+
+.subscribeDiv{
+	width: 75%;
+	float: left;
+	border-right: 1px solid lightgray;
+	box-sizing: border-box;
+	height: 100%;
+}
+.pointDiv{
+	width: 25%;
+	float: left;
+	box-sizing: border-box;
+	height: inherit;
+}
+.couponDiv{
+	width: 20%;
+	float: left;
+	height: 100%;
+}
+
+.fixT{
+	margin-top: 15px;
+	font-weight: bold;
+	font-size: 18px;
+	margin-left: 20px;
+}
+.fixC{
+	padding-left: 50px;
+	font-size: 20px;
+}
+
+.mid{
+	width: 45%;
+	display: inline-block;
+}
+.mid a:hover{
+	color: black;
+	
+}
+
+.subGo{
+	text-align: right;
+	padding-right: 30px;
+}
+.subGo>a{
+	color: black;
+	text-decoration: none;
+}
+
+.userPoint,.userCoupon{
+	color: red;
+	font-size: 30px;
+	font-weight: bold;
+	margin: 0;
+}
+/* mainContent----------------------------------------- */
+
+/* 조회Div----------------------------------------- */
+.hrMargin{
+	margin-bottom: 30px;
+}
+.searchDiv{
+	border: 1px solid gray;
+	margin-left: 30px;
+	margin-right: 30px;
+	height: 100px;
+	overflow: hidden;
+	line-height: 100px;
+}
+.sd{
+	float: left;
+}
+.searchName{
+	text-align: right;
+	width: 25%;
+}
+.searchADiv{
+	padding-left: 30px;
+	width: 75%;
+	padding-top: 35px;
+	line-height: 30px;
+}
+.searchA{
+	text-decoration: none;
+	display: inline-block;
+	color: black;
+	height: 30px;
+	width: 120px;
+	text-align: center;
+	background-color: lightgray;
+}
+.searchDateDiv{
+	padding-left: 10px;
+}
+.searchBtn{
+	margin-left: 5px;
+	width: 60px;
+	height: 30px;
+	background-color: rgb(77, 80, 117);
+	color: white;
+}
+
+.searchA:hover {
+	background-color: rgb(77, 80, 117);
+	color: white;
+}
+
+.searchWrap{
+	margin-bottom: 50px;
+}
+.sA1{
+	background-color: rgb(77, 80, 117);
+	color: white;
+}
+
+/* 테이블----------------------------------------- */
+/* body .th1,.th2,.th3,.th4,.th5{
+	text-align: center;
+} */
+body .listTable{
+	text-align: center;
+}
+
+/* 테이블 border----------------------------------------- */
+.listTable tr:first-child>td, .listTable tr:first-child>th {
+	border-top: 1px solid gray;
+	
+}
+.listTable tr>th, .listTable tr>td{
+	border-top: 1px solid lightgray;
+}
+/* 페이징 호버----------------------------------------- */
+
+#pageNavi>*{
+		margin: 10px;
+	}
+#pageNavi .pageA{
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	line-height: 27px;
+	text-decoration: none;
+	color: rgb(77, 80, 117);
+	border: 1px solid rgb(77, 80, 117);
+}
+#pageNavi span{
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	line-height: 27px;
+	color: white;
+	border: 1px solid rgb(77, 80, 117);
+	background-color: rgb(77, 80, 117);
+}
+#prev1,#next1{
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	line-height: 27px;
+	text-decoration: none;
+	color: rgb(77, 80, 117);
+}
+#pageNavi .pageA:hover{
+	color: white;
+	border: 1px solid rgb(77, 80, 117);
+	background-color: rgb(77, 80, 117);
+}
+/* 받은 선물함 / 보낸 선물함----------------------------------------- */
+.giftSel{
+	margin-left: 30px;
+}
+.giftSel>a{
+	text-decoration: none;
+	color: black;
+	display: inline-block;
+	width: 120px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	background-color: lightgray;
+}
+.giftSel>a:hover{
+	background-color: rgb(77, 80, 117);
+	color: white;
+}
+
+.
+
+
+
+
+/* 반응형웹----------------------------------------- */
+@media(max-width: 768px) {
+
+}

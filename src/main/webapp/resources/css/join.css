@@ -1,0 +1,291 @@
+@charset "utf-8";
+
+/* reset */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    font-size: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    vertical-align: middle;
+}
+
+a img {
+    border: none;
+}
+
+li {
+    list-style: none;
+}
+
+address,
+em,
+i {
+    font-style: normal;
+}
+
+/*layout*/
+@charset "utf-8";
+
+
+/* 조인 */
+@font-face {
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+
+* {
+    font-family: 'S-CoreDream-3Light';
+}
+
+.wrapper {
+    height: 100vh;
+}
+
+
+body {
+    margin: 0px;
+}
+
+.content {
+
+    border: none;
+    padding-top: 100px;
+    margin: 0 auto;
+    width: 80%;
+}
+
+.title {
+        font-family: 'S-CoreDream-3Light';
+
+    margin-top: 70px;
+    left: 50%;
+    transform: translateX(35%);
+    width: 100%;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.join {
+     font-family: 'S-CoreDream-3Light';
+    height: 100%;
+    width: 65%;
+    margin: 0 auto;
+	border:1px solid lightgray;
+    margin-bottom:100px;
+    box-sizing:border-box;
+}
+
+.joinTable {
+    padding-top: 50px;
+    box-sizing: border-box;
+    font-size: 22px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+label {
+
+    width: 200px;
+}
+
+
+.input-eye, .input-eye1 {
+
+   
+    background: #fff;
+    color: #333;
+    padding: 4px 3px 5.5px 4px;
+    border-radius: 0px 5px 5px 0px;
+    margin-left: -10px;
+    cursor: pointer;
+    z-index: 5;
+    border:1px solid lightgray;
+     border-left: none;
+
+}
+
+#userid,
+#username,
+#userphone,
+#useraddrdtl,
+#useremail,
+#agreement,
+#addrsearch,
+#useraddr,
+#useraddr2,#userage {
+    height: 40px;
+    width: 350px;
+   border:1px solid lightgray;
+    margin-top: 10px;
+    outline: none;
+    border-radius: 5px 5px 5px 5px;
+
+}
+
+#userpwre,
+#userpw {
+	   border:1px solid lightgray;
+    margin-top: 10px;
+    border-radius: 5px 5px 5px 5px;
+    outline: none;
+    
+    height: 30px;
+    width: 320px;
+    padding:20px 32px 20px 0px;
+   
+}
+
+input::placeholder {
+
+    font-size: 15px;
+    padding-left: 15px;
+}
+
+#addrsearch {
+    width: 170px;
+}
+
+td:nth-last-child(1) {
+
+    font-size: 15px;
+}
+
+#check {
+    margin-left: 15px;
+}
+
+#agreement {
+    height: 140px;
+    font-size: 15px;
+    padding-left: 7px;
+}
+
+#idchk,
+#addrchk {
+	margin-top:9px;
+    font-size: 12px;
+    border-radius: 5px 5px 5px 5px;
+    margin-left: 15px;
+    height: 35px;
+    background:#4d5075;
+    color:white;
+    width: 70px;
+}
+
+.btnBox {
+    text-align: center;
+}
+
+.btnBox input {
+    background:#4d5075;
+    color:white;
+    font-size: 15px;
+    border-radius: 10px;
+    width: 200px;
+    height: 40px;
+}
+
+.test {
+    margin: 0 auto;
+    border: 1px solid lightgray;
+    width: 80%;
+    height: 75%;
+}
+	.comment1{
+		
+		color: red;
+            font-size: 0.8em;
+            font-weight: 900;
+        
+	}
+   .comment {
+   			width:400px;
+   			display:inline-block;
+            color: red;
+            font-size: 0.8em;
+            font-weight: 900;
+        }
+

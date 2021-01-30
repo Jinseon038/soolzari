@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="admin">
+  <select id="selectAllNotice" parameterType="map" resultType="n">
+		select * from (select rownum as rnum, n.* from (
+		select
+			notice_no as noticeNo,
+			notice_title as noticeTitle,
+			notice_writer as noticeWriter,
+			notice_content as noticeContent,
+			notice_enroll as noticeEnroll,
+			notice_count as noticeCount
+		from notice_db order by 1 desc)n) where rnum between #{start} and #{end}
+	</select>
+	<select id="totalCount" resultType="_int">
+		select count(*) from notice_db
+	</select>
+	<insert id="insertNotice" parameterType="n">
+		insert into notice_db values(notice_seq.nextval, #{noticeTitle}, #{noticeWriter}, #{noticeContent}, to_char(sysdate,'yyyy-mm-dd'), 0)
+	</insert>
+	<delete id="deleteNotice" parameterType="_int">
+		delete from notice_db where notice_no = #{_parameter}
+	</delete>
+	<select id="findNotice" parameterType="map" resultType="n">
+		select * from (select rownum as rnum, n.* from (
+		select
+			notice_no as noticeNo,
+			notice_title as noticeTitle,
+			notice_writer as noticeWriter,
+			notice_content as noticeContent,
+			notice_enroll as noticeEnroll,
+			notice_count as noticeCount
+		from notice_db where
+		<choose>
+			<when test="type.equals('title')">
+				notice_title like '%'||#{search}||'%'
+			</when>
+			<when test="type.equals('content')">
+				notice_content like '%'||#{search}||'%'
+			</when>
+			<when test="type.equals('writer')">
+				notice_writer like '%'||#{search}||'%'
+			</when>
+		</choose>
+		<choose>
+			<when test="week != null">
+				and notice_enroll between to_date(#{week}) and sysdate
+			</when>
+			<when test="month != null">
+				and notice_enroll between to_date(#{month}) and sysdate
+			</when>
+		</choose>
+		order by 1 desc)n) where rnum between #{start} and #{end}
+	</select>
+	<select id="selectOneNotice" parameterType="_int" resultType="n">
+		select
+			notice_no as noticeNo,
+			notice_title as noticeTitle,
+			notice_writer as noticeWriter,
+			notice_content as noticeContent,
+			notice_enroll as noticeEnroll,
+			notice_count as noticeCount
+		from notice_db where notice_no = #{_parameter}
+	</select>
+	<update id="updateNotice" parameterType="n">
+		update notice_db set notice_title = #{noticeTitle}, notice_content = #{noticeContent} where notice_no = #{noticeNo}
+	</update>
+	<select id="totalNoticeSearch" parameterType="map" resultType="_int">
+		select count(*) from notice_db where
+		<choose>
+			<when test="type.equals('title')">
+				notice_title like '%'||#{search}||'%'
+			</when>
+			<when test="type.equals('content')">
+				notice_content like '%'||#{search}||'%'
+			</when>
+			<when test="type.equals('writer')">
+				notice_writer like '%'||#{search}||'%'
+			</when>
+		</choose>
+		<choose>
+			<when test="week != null">
+				and notice_enroll between to_date(#{week}) and sysdate
+			</when>
+			<when test="month != null">
+				and notice_enroll between to_date(#{month}) and sysdate
+			</when>
+		</choose>
+	</select>
+	<update id="updateCount" parameterType="_int">
+		update notice_db set notice_count = notice_count+1 where notice_no = #{_parameter}
+	</update>
+	<select id="selectNoticeClient" parameterType="_int" resultType="com.soolzari.shop.admin.model.vo.NoticeClient">
+		select
+		    n.*
+		    from
+		        (select 
+		            notice_no as noticeNo, 
+		            notice_title as noticeTitle,
+		            lag(notice_no,1,0) over(order by notice_no) as prevNo, 
+		            lag(notice_title,1,null) over(order by notice_no) as prevTitle,
+		            lead(notice_no,1,0) over(order by notice_no) as nextNo,
+		            lead(notice_title,1,null) over(order by notice_no) as nextTitle
+		        from notice_db)n
+		where noticeNo=#{_parameter}
+	</select>
+	
+	<select id="selectAllGoods" parameterType="map" resultType="a">
+		select * from (select rownum as rnum, g.* from (
+		select
+			gds_no as acceptNo,
+			gds_name as acceptName,
+			gds_pri as acceptPrice,
+			goods_date as acceptDate,
+			sel_name as seller,
+			status
+		from goods_db join seller_db using (sel_no) where status=0 order by to_date(goods_date))g) where rnum between #{start} and #{end}
+	</select>
+	<select id="totalGoods" resultType="_int">
+		select count(*) from goods_db where status=0
+	</select>
+	
+	<select id="selectAllFunding" parameterType="map" resultType="a">
+		select * from (select rownum as rnum, f.* from (
+		select
+			fund_no as acceptNo,
+			fund_name as acceptName,
+			fund_det as acceptDet,
+			fund_money as acceptPrice,
+			fund_date as acceptDate,
+			sel_name as seller,
+			status
+		from funding_db join seller_db using (sel_no) where status=0 order by to_date(fund_date))f) where rnum between #{start} and #{end}
+	</select>
+	<select id="totalFunding" resultType="_int">
+		select count(*) from funding_db where status=0
+	</select>
+	
+	<select id="selectAllClass" parameterType="map" resultType="a">
+		select * from (select rownum as rnum, c.* from (
+		select
+			cls_no as acceptNo,
+			cls_name as acceptName,
+			cls_det as acceptDet,
+			cls_price as acceptPrice,
+			class_date as acceptDate,
+			sel_name as seller,
+			status
+		from class_db join seller_db using (sel_no) where status=0 order by to_date(class_date))c) where rnum between #{start} and #{end}
+	</select>
+	<select id="totalClass" resultType="_int">
+		select count(*) from class_db where status=0
+	</select>
+	
+	<update id="accept" parameterType="map">
+		update
+		<choose>
+			<when test="type == 1">
+				goods_db set status=1 where status=0
+				<if test="acceptNo != null">
+					and gds_no=#{acceptNo}
+				</if>
+			</when>
+			<when test="type == 2">
+				funding_db set status=1 where status=0
+				<if test="acceptNo != null">
+					and fund_no=#{acceptNo}
+				</if>
+			</when>
+			<when test="type == 3">
+				class_db set status=1 where status=0
+				<if test="acceptNo != null">
+					and cls_no=#{acceptNo}
+				</if>
+			</when>
+		</choose>
+		and status=0
+	</update>
+	<update id="reject" parameterType="map">
+		update
+		<choose>
+			<when test="type == 1">
+				goods_db set status=3 where status=0
+				<if test="acceptNo != null">
+					and gds_no=#{acceptNo}
+				</if>
+			</when>
+			<when test="type == 2">
+				funding_db set status=3 where status=0
+				<if test="acceptNo != null">
+					and fund_no=#{acceptNo}
+				</if>
+			</when>
+			<when test="type == 3">
+				class_db set status=3 where status=0
+				<if test="acceptNo != null">
+					and cls_no=#{acceptNo}
+				</if>
+			</when>
+		</choose>
+	</update>
+	
+	<select id="searchGoods" parameterType="map" resultType="a">
+		select * from (select rownum as rnum, g.* from (
+		select
+			gds_no as acceptNo,
+			gds_name as acceptName,
+			gds_pri as acceptPrice,
+			goods_date as acceptDate,
+			sel_name as seller,
+			status
+		from goods_db join seller_db using (sel_no) where gds_name like '%'||#{search}||'%' and status=0 and goods_date
+		<choose>
+			<when test="startDate.equals(endDate)">
+				= #{endDate}
+			</when>
+			<otherwise>
+				between to_date(#{startDate}) and to_date(#{endDate})
+			</otherwise>
+		</choose>
+		)g) where rnum between #{start} and #{end}
+	</select>
+	<select id="searchFunding" parameterType="map" resultType="a">
+		select * from (select rownum as rnum, f.* from (
+		select
+			fund_no as acceptNo,
+			fund_name as acceptName,
+			fund_det as acceptDet,
+			fund_money as acceptPrice,
+			fund_date as acceptDate,
+			sel_name as seller,
+			status
+		from funding_db join seller_db using (sel_no) where fund_name like '%'||#{search}||'%' and status=0 and fund_date
+		<choose>
+			<when test="startDate.equals(endDate)">
+				= #{endDate}
+			</when>
+			<otherwise>
+				between to_date(#{startDate}) and to_date(#{endDate})
+			</otherwise>
+		</choose>
+		)f) where rnum between #{start} and #{end}
+	</select>
+	<select id="searchClass" parameterType="map" resultType="a">
+		select * from (select rownum as rnum, c.* from (
+		select
+			cls_no as acceptNo,
+			cls_name as acceptName,
+			cls_det as acceptDet,
+			cls_price as acceptPrice,
+			class_date as acceptDate,
+			sel_name as seller,
+			status
+		from class_db join seller_db using (sel_no) where cls_name like '%'||#{search}||'%' and status=0 and class_date
+		<choose>
+			<when test="startDate.equals(endDate)">
+				= #{endDate}
+			</when>
+			<otherwise>
+				between to_date(#{startDate}) and to_date(#{endDate})
+			</otherwise>
+		</choose>
+		)c) where rnum between #{start} and #{end}
+	</select>
+	<select id="searchTotal" parameterType="map" resultType="_int">
+		select count(*) from 
+		<choose>
+			<when test="type == 1">
+				goods_db where gds_name like '%'||#{search}||'%' and status=0 and goods_date
+			</when>
+			<when test="type == 2">
+				funding_db where fund_name like '%'||#{search}||'%' and status=0 and fund_date
+			</when>
+			<when test="type == 3">
+				class_db where cls_name like '%'||#{search}||'%' and status=0 and class_date
+			</when>
+		</choose>
+		<choose>
+			<when test="startDate.equals(endDate)">
+				= #{endDate}
+			</when>
+			<otherwise>
+				between to_date(#{startDate}) and to_date(#{endDate})
+			</otherwise>
+		</choose>
+	</select>
+	<select id="selectFundingGoods" resultType="fundingGoods">
+		select
+			fnd_g_no as fndGNo,
+			fund_no as fundNo,
+			fnd_g_name as fndGName,
+			fnd_g_con as fndGCon,
+			fnd_g_pri as fndGPri
+		from fnd_gds_db
+	</select>
+	
+	<select id="selectAllClient" parameterType="map" resultType="u">
+		select * from (select rownum as rnum, c.* from (
+		select
+			cli_no as userNo,
+			cli_id as userId,
+			cli_name as userName,
+			cli_tel as userPhone,
+			cli_addr as userAddr,
+			cli_email as userEmail,
+			cli_rank as status,
+			cli_enroll as userEnroll,
+			cli_point as point
+		from client_db where cli_rank not in (10) order by cli_enroll
+		<if test="order == 1">
+			desc
+		</if>
+		)c) where rnum between #{start} and #{end}
+	</select>
+	<select id="totalClient" resultType="_int">
+		select count(*) from client_db
+	</select>
+	<select id="selectAllSeller" parameterType="map" resultType="u">
+		select * from (select rownum as rnum, s.* from (
+		select
+			sel_no as userNo,
+			sel_id as userId,
+			sel_name as userName,
+			sel_tel as userPhone,
+			sel_addr as userAddr,
+			sel_enroll as userEnroll
+		from seller_db order by sel_enroll
+		<if test="order == 1">
+			desc
+		</if>
+		)s) where rnum between #{start} and #{end}
+	</select>
+	<select id="totalSeller" resultType="_int">
+		select count(*) from seller_db
+	</select>
+	<update id="updateGrade" parameterType="map">
+		update client_db set cli_rank=#{grade} where cli_no=#{userNo}
+	</update>
+	<delete id="deleteUser" parameterType="map">
+		delete from
+		<choose>
+			<when test="type == 1">
+				client_db where cli_no = #{userNo}
+			</when>
+			<otherwise>
+				seller_db where sel_no = #{userNo}
+			</otherwise>
+		</choose>
+	</delete>
+	<select id="searchClient" parameterType="map" resultType="u">
+		select * from (select rownum as rnum, c.* from (
+		select
+			cli_no as userNo,
+			cli_id as userId,
+			cli_name as userName,
+			cli_tel as userPhone,
+			cli_addr as userAddr,
+			cli_email as userEmail,
+			cli_rank as status,
+			cli_enroll as userEnroll
+		from client_db where
+		<choose>
+			<when test="searchType.equals('id')">
+				cli_id like '%'||#{search}||'%'
+			</when>
+			<otherwise>
+				cli_name like '%'||#{search}||'%'
+			</otherwise>
+		</choose>
+		<if test="startDate != '' and endDate != ''">
+			<choose>
+				<when test="startDate.equals(endDate)">
+					and cli_enroll = #{startDate}
+				</when>
+				<otherwise>
+					and cli_enroll between to_date(#{startDate}) and to_date(#{endDate})
+				</otherwise>
+			</choose>
+		</if>
+		)c) where rnum between #{start} and #{end}
+	</select>
+	<select id="searchSeller" parameterType="map" resultType="u">
+		select * from (select rownum as rnum, s.* from (
+		select
+			sel_no as userNo,
+			sel_id as userId,
+			sel_name as userName,
+			sel_tel as userPhone,
+			sel_addr as userAddr,
+			sel_enroll as userEnroll
+		from seller_db where
+		<choose>
+			<when test="searchType.equals('id')">
+				sel_id like '%'||#{search}||'%'
+			</when>
+			<otherwise>
+				sel_name like '%'||#{search}||'%'
+			</otherwise>
+		</choose>
+		<if test="startDate != '' and endDate != ''">
+			<choose>
+				<when test="startDate.equals(endDate)">
+					and sel_enroll = #{startDate}
+				</when>
+				<otherwise>
+					and sel_enroll between to_date(#{startDate}) and to_date(#{endDate})
+				</otherwise>
+			</choose>
+		</if>
+		)s) where rnum between #{start} and #{end}
+	</select>
+	<select id="searchUserTotal" parameterType="map" resultType="_int">
+		select count(*) from
+		<choose>
+			<when test="type == 1">
+				client_db where
+				<choose>
+					<when test="searchType.equals('id')">
+						cli_id like '%'||#{search}||'%'
+					</when>
+					<otherwise>
+						cli_name like '%'||#{search}||'%'
+					</otherwise>
+				</choose>
+				<if test="startDate != '' and endDate != ''">
+					<choose>
+						<when test="startDate.equals(endDate)">
+							and cli_enroll = #{startDate}
+						</when>
+						<otherwise>
+							and cli_enroll between to_date(#{startDate}) and to_date(#{endDate})
+						</otherwise>
+					</choose>
+				</if>
+			</when>
+			<otherwise>
+				seller_db where
+				<choose>
+					<when test="searchType.equals('id')">
+						sel_id like '%'||#{search}||'%'
+					</when>
+					<otherwise>
+						sel_name like '%'||#{search}||'%'
+					</otherwise>
+				</choose>
+				<if test="startDate != '' and endDate != ''">
+					<choose>
+						<when test="startDate.equals(endDate)">
+							and sel_enroll = #{startDate}
+						</when>
+						<otherwise>
+							and sel_enroll between to_date(#{startDate}) and to_date(#{endDate})
+						</otherwise>
+					</choose>
+				</if>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="selectAllQna" parameterType="map" resultType="qna">
+		select * from (select rownum as rnum, q.* from
+		(select
+			qna_no as qnaNo,
+			qna_name as qnaName,
+			qna_writer as qnaWriter,
+			qna_con as qnaCon,
+			qna_enroll as qnaEnroll,
+			qna_ans qnaAns,
+			cli_id as qnaId
+		from qna_db join client_db on (cli_no = qna_writer) order by qna_ans, qna_enroll)q) where rnum between #{start} and #{end}
+	</select>
+	<select id="totalQna" resultType="_int">
+		select count(*) from qna_db
+	</select>
+	<select id="selectOneQna" parameterType="_int" resultType="qna">
+		select
+			qna_no as qnaNo,
+			qna_name as qnaName,
+			qna_writer as qnaWriter,
+			qna_con as qnaCon,
+			qna_enroll as qnaEnroll,
+			qna_ans qnaAns,
+			cli_id as qnaId
+		from qna_db join client_db on (cli_no = qna_writer) where qna_no = #{_parameter}
+	</select>
+	<select id="selectOneQrv" parameterType="_int" resultType="qrv">
+		select
+			qrv_no as qrvNo,
+			qna_no as qnaNo,
+			qrv_writer as qrvWriter,
+			qrv_content as qrvContent,
+			qrv_enroll as qrvEnroll
+		from qrv_db where qna_no = #{_parameter}
+	</select>
+	<delete id="deleteQna" parameterType="_int">
+		delete from qna_db where qna_no = #{_parameter}
+	</delete>
+	<select id="searchQna" parameterType="map" resultType="qna">
+		select * from (select rownum as rnum, q.* from (
+		select
+			qna_no as qnaNo,
+			qna_name as qnaName,
+			qna_writer as qnaWriter,
+			qna_con as qnaCon,
+			qna_enroll as qnaEnroll,
+			qna_ans qnaAns,
+			cli_id as qnaId
+		from qna_db join client_db on (cli_no = qna_writer) where
+		<choose>
+			<when test="type.equals('title')">
+				qna_name like '%'||#{search}||'%'
+			</when>
+			<when test="type.equals('content')">
+				qna_con like '%'||#{search}||'%'
+			</when>
+			<when test="type.equals('writer')">
+				cli_id like '%'||#{search}||'%'
+			</when>
+		</choose>
+		<choose>
+			<when test="week != null">
+				and qna_enroll between to_date(#{week}) and sysdate
+			</when>
+			<when test="month != null">
+				and qna_enroll between to_date(#{month}) and sysdate
+			</when>
+		</choose>
+		order by qna_ans)q) where rnum between #{start} and #{end}
+	</select>
+	<select id="totalQnaSearch" parameterType="map" resultType="_int">
+		select count(*) from qna_db join client_db on (cli_no = qna_writer) where
+		<choose>
+			<when test="type.equals('title')">
+				qna_name like '%'||#{search}||'%'
+			</when>
+			<when test="type.equals('content')">
+				qna_con like '%'||#{search}||'%'
+			</when>
+			<when test="type.equals('writer')">
+				cli_id like '%'||#{search}||'%'
+			</when>
+		</choose>
+		<choose>
+			<when test="week != null">
+				and qna_enroll between to_date(#{week}) and sysdate
+			</when>
+			<when test="month != null">
+				and qna_enroll between to_date(#{month}) and sysdate
+			</when>
+		</choose>
+	</select>
+	<insert id="insertQrv" parameterType="qrv">
+		insert into qrv_db values(qrv_seq.nextval, #{qnaNo}, #{qrvWriter}, #{qrvContent}, to_char(sysdate, 'yyyy-mm-dd'))
+	</insert>
+	<update id="updateQrv" parameterType="qrv">
+		update qrv_db set qrv_content = #{qrvContent} where qrv_no = #{qrvNo}
+	</update>
+	<delete id="deleteQrv" parameterType="_int">
+		delete from qrv_db where qrv_no = #{_parameter}
+	</delete>
+	
+	<select id="totalUser" parameterType="_int" resultType="_int">
+		select count(*) from client_db
+		<if test="_parameter == 0">
+			where cli_rank = 0
+		</if>
+		<if test="_parameter == 1">
+			where cli_rank = 1
+		</if>
+		<if test="_parameter == 2">
+			where cli_rank = 2
+		</if>
+	</select>
+	<select id="selectSool" resultType="sool">
+		select month, nvl(wCount,0) wine, nvl(tCount,0) takju, nvl(cCount,0) chungju, nvl(fCount,0) fruit, nvl(sCount,0) soju
+		   from
+		       (select * from
+		           (
+		           select to_char(sysdate,'yyyymm')as month from dual
+		           union
+		           select to_char(add_months(sysdate, -1),'yyyymm') from dual
+		           union
+		           select to_char(add_months(sysdate, -2),'yyyymm') from dual
+		           union
+		           select to_char(add_months(sysdate, -3),'yyyymm') from dual
+		           )
+		           left join
+		           (select substr(pur_date,1,6) month, sum(gds_l_cnt) as wCount
+		           from goods_list_db
+		           left join goods_db using(gds_no)
+		           left join purchase_db using(pur_no)  
+		           where goods_type='w' and pur_cancel = 0
+		           group by (substr(pur_date,1,6),goods_type))
+		           using (month)
+		           left join
+		           (select substr(pur_date,1,6) month, sum(gds_l_cnt) as tCount
+		           from goods_list_db
+		           left join goods_db using(gds_no)
+		           left join purchase_db using(pur_no)  
+		           where goods_type='t' and pur_cancel = 0
+		           group by (substr(pur_date,1,6),goods_type))
+		           using (month)
+		           left join
+		           (select substr(pur_date,1,6) month, sum(gds_l_cnt) as cCount
+		           from goods_list_db
+		           left join goods_db using(gds_no)
+		           left join purchase_db using(pur_no)  
+		           where goods_type='c' and pur_cancel = 0
+		           group by (substr(pur_date,1,6),goods_type))
+		           using (month)
+		           left join
+		           (select substr(pur_date,1,6) month, sum(gds_l_cnt) as fCount
+		           from goods_list_db
+		           left join goods_db using(gds_no)
+		           left join purchase_db using(pur_no)  
+		           where goods_type='f' and pur_cancel = 0
+		           group by (substr(pur_date,1,6),goods_type))
+		           using (month)
+		           left join
+		           (select substr(pur_date,1,6) month, sum(gds_l_cnt) as sCount
+		           from goods_list_db
+		           left join goods_db using(gds_no)
+		           left join purchase_db using(pur_no)  
+		           where goods_type='s' and pur_cancel = 0
+		           group by (substr(pur_date,1,6),goods_type))
+		           using (month)
+		       )
+		where month between to_char(add_months(sysdate, -3),'yyyymm') and to_char(sysdate,'yyyymm')
+		order by 1 desc
+	</select>
+	<select id="totalClassMonth" parameterType="_int" resultType="_int">
+		select nvl(sum(class_list_db.class_person), 0) from class_db join class_list_db on (cls_no = cls_class_no) where
+		<choose>
+			<when test="_parameter == 0">
+				substr(class_enroll,1,7) = to_char(sysdate, 'yyyy-mm') and class_check in (0,3)
+			</when>
+			<when test="_parameter == -1">
+				substr(class_enroll,1,7) = to_char(add_months(sysdate, -1), 'yyyy-mm') and class_check in (0,3)
+			</when>
+			<when test="_parameter == -2">
+				substr(class_enroll,1,7) = to_char(add_months(sysdate, -2), 'yyyy-mm') and class_check in (0,3)
+			</when>
+			<when test="_parameter == 1">
+				substr(class_enroll,1,7) = to_char(add_months(sysdate, 1), 'yyyy-mm') and class_check in (0,3)
+			</when>
+			<when test="_parameter == 2">
+				substr(class_enroll,1,7) = to_char(add_months(sysdate, 2), 'yyyy-mm') and class_check in (0,3)
+			</when>
+		</choose>
+	</select>
+	<select id="totalFundingChart" parameterType="_int" resultType="_int">
+		select count(*) from
+		<choose>
+			<when test="_parameter == 1">
+				funding_db where fund_chk=1
+			</when>
+			<when test="_parameter == 8">
+				(select fund_no, sum(fnd_d_price) total, f2.fund_money , nvl(round(sum(fnd_d_price)/f2.fund_money,1),0) as goal from fnd_det_db f1
+			    right join funding_db f2 using(fund_no)
+			    where to_date(f2.fund_enddate) > sysdate
+			    group by (fund_no, f2.fund_money)
+			    order by 1)
+				where goal <![CDATA[ >= ]]> 0.8 and goal <![CDATA[ < ]]> 1
+			</when>
+			<when test="_parameter == 5">
+				(select fund_no, sum(fnd_d_price) total, f2.fund_money , nvl(round(sum(fnd_d_price)/f2.fund_money,1),0) as goal from fnd_det_db f1
+			    right join funding_db f2 using(fund_no)
+			    where to_date(f2.fund_enddate) > sysdate
+			    group by (fund_no, f2.fund_money)
+			    order by 1)
+				where goal <![CDATA[ >= ]]> 0.5 and goal <![CDATA[ < ]]> 0.8
+			</when>
+			<when test="_parameter == 0">
+				funding_db where fund_chk=2
+			</when>
+		</choose>
+	</select>
+	<select id="selectBestFunding" resultType="funding">
+		select * from (select rownum, m.* from (select
+			fund_no as fundNo,
+			f2.fund_name as fundName,
+			nvl(sum(fnd_d_price),0) as fundTotalMoney,
+			f2.fund_money as fundMoney,
+            f2.sel_no as selNo,
+			f2.fund_enrolldate as fundEnrolldate,
+			f2.fund_enddate as fundEnddate
+		from fnd_det_db f1 right join funding_db f2 using(fund_no) where substr(fund_enddate,1,7) = to_char(sysdate, 'yyyy-mm') 
+    	group by (fund_no, f2.fund_money, f2.fund_name, f2.fund_enrolldate, f2.fund_enddate, f2.sel_no) order by fundTotalMoney desc)m) where rownum=1
+	</select>
+	<select id="totalSales" resultType="_int">
+		select nvl(sum(totalSales),0) from (
+			select pur_no, nvl(sum(gds_l_cnt),0) as totalSales, substr(pur_date,1,6) month, pur_cancel from goods_list_db left join purchase_db using(pur_no) group by pur_no, pur_date, pur_cancel
+		)where month = to_char(sysdate, 'yyyymm') and pur_cancel=0
+	</select>
+	<select id="totalSalePrice" resultType="_int">
+		select nvl(sum(totalSalePrice),0) from (
+			select pur_no, gds_l_no, substr(pur_date,1,6) month, (gds_l_price * gds_l_cnt) totalSalePrice, gds_no, pur_cancel from goods_list_db join purchase_db using (pur_no)
+		) where month = to_char(sysdate, 'yyyymm') and pur_cancel=0
+	</select>
+	<select id="selectBestGoods" resultType="com.soolzari.shop.admin.model.vo.Goods">
+		select * from (select rownum, g.* from (
+			select
+				gds_no as goodsNo,
+				gds_name as goodsName,
+				goods_type as goodsType,
+				sum(gds_l_cnt) buyCount
+			from (select * from goods_db join goods_list_db using(gds_no) join purchase_db using (pur_no) where substr(pur_date,1,6) = to_char(sysdate, 'yyyymm') and pur_cancel=0 and status=1) group by gds_no, gds_name, goods_type
+		order by buyCount desc)g) where rownum=1
+	</select>
+	<select id="selectSellerGoods" parameterType="_int" resultType="_int">
+		select nvl(sum(gds_l_cnt),0) from (select gds_no, pur_no, gds_l_no, gds_l_cnt, pur_cancel, pur_date, sel_no, status from goods_list_db join purchase_db using(pur_no) join goods_db using(gds_no) where sel_no = #{_parameter} and pur_cancel=0 and status=1)
+	</select>
+	<select id="selectSellerSales" parameterType="_int" resultType="_int">
+		select nvl(sum(totalSales),0) from (select gds_no, pur_no, gds_l_no, gds_l_cnt, gds_l_price, (gds_l_cnt*gds_l_price) totalSales, pur_cancel, pur_date, sel_no, status from goods_list_db join purchase_db using(pur_no) join goods_db using(gds_no) where sel_no = #{_parameter} and pur_cancel=0 and status=1)
+	</select>
+</mapper>

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mypage">
+	<update id="mInfoUpdate" parameterType="c2">
+		update client_db set 
+			cli_name = #{cliName},
+			<if test="cliPw!=null">
+				cli_pw = #{cliPw},
+			</if>
+			cli_email = #{cliEmail},
+			cli_tel = #{cliTel},
+			cli_age = #{cliAge},
+			cli_addr = #{cliAddr}
+		where cli_no = #{cliNo}
+	</update>
+	
+	<select id="mInfoCheckPw" parameterType="c2" resultType="c2">
+		select 
+			cli_no as cliNo,
+			cli_id as cliId,
+			cli_pw as cliPw,
+			cli_name as cliName,
+			cli_tel as cliTel,
+			cli_addr as cliAddr,
+			cli_email as cliEmail,
+			cli_rank as cliRank,
+			cli_enroll as cliEnroll,
+			cli_point as cliPoint,
+			cli_age as cliAge
+		 from client_db where cli_id=#{cliId} and cli_pw=#{cliPw}
+	</select>
+	
+	<select id="totalCountPage" parameterType="map" resultType="_int">
+		select count(*) from purchase_db where CLI_NO=#{cliNo} and TO_DATE(pur_date,'YYYYMMDDHH24MISS') between add_months(sysdate,-#{period}) and sysdate
+	</select>
+	
+	<select id="orderListSelect" parameterType="map" resultType="orderListData">
+		select *
+       	from (select 
+                rownum as rnum, n.* 
+            from (select 
+                    glData.pur_no as purNo,
+                    p.pur_date as purDate, 
+                    p.pur_ttp as purTtp, 
+                    p.pur_get as purGet,
+                    glData.gds_no as gdsNo,
+                    glData.gds_name as gdsName,
+                    glData.gds_l_price as gdsLPrice,
+                    glData.gds_l_cnt as gdsLCnt,
+                    glData.gds_d_status as gdsDStatus
+                 from purchase_db p, (select 
+                                        gl.pur_no, 
+                                        g.gds_no, 
+                                        g.gds_name, 
+                                        gl.gds_l_price, 
+                                        gl.gds_l_cnt, 
+                                        gl.gds_d_status 
+                                     from goods_db g, goods_list_db gl 
+                                     where g.gds_no=gl.gds_no) glData 
+                where CLI_NO=#{cliNo} and glData.pur_no=p.pur_no order by p.pur_no desc) n)
+        where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="purchasePageSelect" parameterType="map" resultType="purchase">
+		select 
+        	pur_no as purNo,
+            pur_date as purDate, 
+            pur_ttp as purTtp, 
+            pur_get as purGet
+       	from (select 
+            rownum as rnum, n.* 
+            from (select * from purchase_db where cli_no=#{cliNo} and TO_DATE(pur_date,'YYYYMMDDHH24MISS') between add_months(sysdate,-#{period}) and sysdate order by pur_no desc) n)
+        where rnum between #{start} and #{end}
+	</select>
+	<select id="orderListDataSelect" parameterType="list" resultType="orderListData">
+		select 
+            gl.pur_no as purNo, 
+            gl.gds_l_no as gdsLNo,
+            g.gds_no as gdsNo, 
+            g.gds_name as gdsName, 
+            gl.gds_l_price as gdsLPrice, 
+            gl.gds_l_cnt as gdsLCnt, 
+            gl.gds_d_status as gdsDStatus
+        from goods_db g, goods_list_db gl 
+        where g.gds_no=gl.gds_no and pur_no in
+        <foreach collection="list" item="pur" open="(" close=")" separator=",">
+			#{pur.purNo}
+		</foreach>
+	</select>
+	
+	<!-- 주문내역 배송관리(수취확인버튼) -->
+	<update id="orderDeliveryStatus" parameterType="map">
+		update goods_list_db set gds_d_status=#{deliveryStatus} where gds_l_no=#{gdsLNo}
+	</update>
+	
+	<!-- 상품주문취소시 purchase_db에 pur_cancel을 0->1로 전환 -->
+	<update id="purCancelUpdate" parameterType="_int">
+		update purchase_db set pur_cancel=1 where pur_no=#{_parameter}
+	</update>
+	<!-- 주문내역 배송관리(취소신청버튼) -->
+	<update id="orderDeliveryCancelStatus" parameterType="map">
+		update goods_list_db set gds_d_status=#{deliveryStatus} where pur_no=#{purNo}
+	</update>
+	
+	<!-- 마이페이제 - 클래스 -->
+	
+	<select id="totalCountExperience" parameterType="map" resultType="_int">
+		select count(*)
+                    from class_list_db cl, class_db c, seller_db s 
+                    where CL.CLS_CLASS_NO=C.CLS_NO 
+                    	and s.sel_no=c.sel_no 
+                    	and cl.cls_cli_no=#{cliNo}
+						and to_date(cl.class_payment,'YYYY-MM-DD') between add_months(sysdate,-#{period}) and sysdate
+	</select>
+	<select id="experienceListDataPageSelect" parameterType="map" resultType="experienceListData">
+		select 
+		    sel_name as selName,
+		    sel_tel as selTel,
+		    class_person as classPerson,
+		    class_check as classCheck,
+		    cls_no as clsNo,
+		    cls_l_no as clsLNo,
+		    cls_name as clsName,
+		    cls_price as clsPrice,
+		    class_enroll as classEnroll,
+		    classstarttime as classStartTime,
+    		class_payment as classPayment
+		from (select 
+           	 		rownum as rnum, n.* 
+            	from (select 
+                    s.sel_name,
+                    s.sel_tel,
+                    cl.class_person,
+                    cl.class_check,
+                    c.cls_no,
+                    cl.cls_l_no,
+                    c.cls_name,
+                    c.cls_price,
+                    c.class_enroll,
+                    c.classstarttime,
+                    cl.class_payment
+                    from class_list_db cl, class_db c, seller_db s 
+                    where 
+                    	CL.CLS_CLASS_NO=C.CLS_NO 
+                    	and s.sel_no=c.sel_no 
+                    	and cl.cls_cli_no=#{cliNo}
+						and to_date(cl.class_payment,'YYYY-MM-DD') between add_months(sysdate,-#{period}) and sysdate 
+						order by cl.cls_l_no desc) n)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 클래스 취소신청하기 -->
+	<update id="classCancel" parameterType="_int">
+		update class_list_db set class_check=2 where cls_l_no=#{_parameter}
+	</update>
+	
+	<!-- 마이페이지 - 문의하기 -->
+	<!-- 문의하기insert -->
+	<insert id="questionInsert" parameterType="qna">
+		insert into qna_db values(qna_seq.nextval,#{qnaName},#{qnaWriter},#{qnaCon},to_char(sysdate,'yyyy-mm-dd'),0)
+	</insert>
+	<!-- 문의하기 조회하기 totalpage수(개월수별로 조회해야하니까 period사용) -->
+	<select id="totalCountQuestion" parameterType="map" resultType="_int">
+		select count(*)
+        from qna_db
+        where 
+        	qna_writer=#{cliNo}
+			and to_date(qna_enroll,'YYYY-MM-DD') between add_months(sysdate,-#{period}) and sysdate
+	</select>
+	<!-- 문의하기 내용 조회 -->
+	<select id="qnaDataPageSelect" parameterType="map" resultType="qna">
+		select
+		    qna_no as qnaNo,
+			qna_name as qnaName,
+			qna_writer as qnaWriter,
+			qna_con as qnaCon,
+		    qna_enroll as qnaEnroll,
+		    qna_ans as qnaAns
+		from (select rownum as rnum, n.* 
+		    	from (select * from qna_db
+		        	where 
+		        		qna_writer=#{cliNo}
+						and to_date(qna_enroll,'YYYY-MM-DD') between add_months(sysdate,-#{period}) and sysdate order by qna_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 스케줄러로 매일밤 체험기간이 지난 클래스들은 체험완료로보이게함 -->
+	<update id="classCheckUpdate">
+		update class_list_db set class_check=3 where cls_class_no in (select cls_no from class_db where (to_date(class_enroll,'yyyy-mm-dd')+1)=to_char(sysdate,'yyyy-mm-dd')) and class_check=0
+	</update>
+	
+	
+	
+	<!-- 마이페이지 - 펀딩(레코드수구하기) -->
+	<select id="totalCountFunding" parameterType="map" resultType="_int">
+		select count(*) from fnd_det_db where fnd_d_cli=#{cliNo} and to_date(fnd_d_reserdate,'YYYYMMDDHH24MISS') between add_months(sysdate,-#{period}) and sysdate
+	</select>
+	
+	<!-- 마이페이지 - 펀딩(페이징) -->
+	<select id="FundingDataPageSelect" parameterType="map" resultType="FundingListData">
+		select *
+		from (	select 
+		         	rownum as rnum, n.* 
+		    	from (	select 
+				            d.fnd_d_no as fndDNo,
+				            d.fnd_d_cli as fndDCli,
+				            d.fnd_d_price as fndDPrice,
+				            d.fnd_d_status as fndDStatus,
+				            d.fnd_d_paydate as fndDPaydate,
+				            d.fnd_d_reserdate as fndDReserdate,
+				            d.fnd_d_totalp as fndDTotalp,
+				            d.fnd_d_cliaddr as fndDCliaddr,
+				            g.fnd_g_no as fndGNo,
+				            g.fnd_g_name as fndGName,
+				            g.fnd_g_con as fndGCon,
+				            g.fnd_g_pri as fndGPri,
+				            f.fund_no as fundNo,
+				            f.fund_name as fundName,
+				            f.fund_money as fundMoney,
+				            f.fund_chk as fundChk,
+				            f.fund_det as fundDet,
+				            f.status,
+				            f.sel_no as selNo,
+				            f.fund_enrolldate as fundEnrolldate,
+				            f.fund_enddate as fundEnddate
+				            from fnd_det_db d, fnd_gds_db g, funding_db f 
+				            where d.fnd_g_no=g.fnd_g_no and f.fund_no=d.fund_no 
+				                and d.fnd_d_cli=#{cliNo} 
+				                and to_date(d.fnd_d_reserdate,'YYYYMMDDHH24MISS') between add_months(sysdate,-#{period}) and sysdate 
+				                order by d.fnd_d_no desc) n) 
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 마이페이지 - 펀딩 결제하기 페이지 -->
+	<select id="paymentFundingSelect" parameterType="_int" resultType="fundingListData">
+		select 
+            d.fnd_d_no as fndDNo,
+            d.fnd_d_cli as fndDCli,
+            d.fnd_d_price as fndDPrice,
+            d.fnd_d_status as fndDStatus,
+            d.fnd_d_paydate as fndDPaydate,
+            d.fnd_d_reserdate as fndDReserdate,
+            d.fnd_d_totalp as fndDTotalp,
+			d.fnd_d_cliaddr as fndDCliaddr,
+            g.fnd_g_no as fndGNo,
+            g.fnd_g_name as fndGName,
+            g.fnd_g_con as fndGCon,
+            g.fnd_g_pri as fndGPri,
+            f.fund_no as fundNo,
+            f.fund_name as fundName,
+            f.fund_money as fundMoney,
+            f.fund_chk as fundChk,
+            f.fund_det as fundDet,
+            f.status,
+            f.sel_no as selNo,
+            f.fund_enrolldate as fundEnrolldate,
+            f.fund_enddate as fundEnddate
+            from fnd_det_db d, fnd_gds_db g, funding_db f 
+            where d.fnd_g_no=g.fnd_g_no and f.fund_no=d.fund_no 
+                and d.fnd_d_no=#{_parameter}
+	</select>
+	
+	<!-- 마이페이지 - 펀딩 결제하고 결제정보insert -->
+	<update id="fundDetailUpdate" parameterType="fundDetailDB">
+		update fnd_det_db set fnd_d_totalp=#{fndDTotalp}, fnd_d_cliaddr=#{fndDCliaddr}, fnd_d_paydate=#{fndDPaydate}, fnd_d_status=2 where fnd_d_no=#{fndDNo}
+	</update>
+	
+	<!-- 매일 자정 종료일인 펀딩 중 달성된 펀딩일경우 fnd_det_db의 fnd_d_status를 1로 변경(결제버튼생성됨) -->
+	
+	<update id="fndDStatusYUpdate">
+		update fnd_det_db set fnd_d_status=1 
+		where fund_no in(select 
+						   fund_no 
+						from funding_db 
+						where fund_enddate=to_char(sysdate-1,'yyyy-mm-dd') and fund_chk=1)
+	</update>
+	<!-- 매일 자정 종료일인 펀딩 중 미달성된 펀딩일경우 fnd_det_db의 fnd_d_status를 7로 변경(목표미달성이라는 문구 출력) -->
+	<update id="fndDStatusNUpdate">
+		update fnd_det_db set fnd_d_status=7 where fund_no in(select 
+		   fund_no 
+		from funding_db 
+		where fund_enddate=to_char(sysdate-1,'yyyy-mm-dd') and fund_chk=0)
+	</update>
+	
+	<!-- 매일 자정 종료일인 펀딩 중 미달성된 펀딩일경우 funding_db의 fund_chk를 2로 변경 -->
+	<update id="fundChkNUpdate">
+		update funding_db set fund_chk=2 where fund_no in(select 
+		   fund_no 
+		from funding_db 
+		where fund_enddate=to_char(sysdate-1,'yyyy-mm-dd') and fund_chk=0)
+	</update>
+
+	<!-- 마이페이지 - 펀딩 배송관리(수취확인) -->
+	<update id="fundDeliveryStatus" parameterType="_int">
+		update fnd_det_db set fnd_d_status=5 where fnd_d_no=#{_parameter}
+	</update>
+	
+	<select id="emailSelect" parameterType="_int" resultType="c2">
+		select cli_no as cliNo,
+			cli_id as cliId,
+			cli_pw as cliPw,
+			cli_name as cliName,
+			cli_tel as cliTel,
+			cli_addr as cliAddr,
+			cli_email as cliEmail,
+			cli_rank as cliRank,
+			cli_enroll as cliEnroll,
+			cli_point as cliPoint,
+			cli_age as cliAge 
+		from client_db where cli_no in(select distinct(fnd_d_cli) from fnd_det_db where fund_no in(select 
+		   fund_no 
+		from funding_db 
+		where fund_enddate=to_char(sysdate-1,'yyyy-mm-dd') and fund_chk=#{_parameter}))
+	</select>
+	
+	<!-- 구독랭크 정보가져오기 -->
+	<select id="subscribeSelect" parameterType="_int" resultType="s">
+		select 
+			sub_no as subscribeNo,
+			sub_name as subscribeName,
+			sub_det as subscribeDept,
+			sub_price as subscribePrice
+		from subscribe_db where sub_no=#{_parameter}
+		
+	</select>
+	
+	
+	<!-- 마이페이지 - 내가 쓴 리뷰 페이징 -->
+	<select id="totalCountReview" parameterType="map" resultType="_int">
+		select count(*) from review_db where rev_writer=#{cliNo} and to_date(rev_enroll,'YYYY-MM-DD') between add_months(sysdate,-#{period}) and sysdate
+	</select>
+	<!-- 마이페이지 - 내가 쓴 리뷰 페이징 -->
+	<select id="reviewDataPageSelect" parameterType="map" resultType="fr">
+		select
+		    rev_no as reviewNo,
+			rev_gdsno as goodNo,
+			rev_con as commentContent,
+			rev_writer as commentWriter,
+		    rev_enroll as reviewDate,
+		    rev_score as commentRate,
+		    rev_fundno as fundNo,
+		    rev_writername as commentWriterName
+		from
+		(select 
+		    rownum as rnum, n.* from (select *
+		        from review_db r
+		        where 
+		        	r.rev_writer=#{cliNo}
+					and to_date(r.rev_enroll,'YYYY-MM-DD') between add_months(sysdate,-#{period}) and sysdate 
+		            order by r.rev_no desc)n) where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 구독취소하기 -->
+	<update id="subScribeUpdate" parameterType="_int">
+		update client_db set cli_rank=0 where cli_no=#{_parameter}
+	</update>
+	
+	<!-- 구독중인 고객들만 뽑아서 매달 1일에 메일전송(cli_rank=1,2) -->
+	<select id="subscribePayMail" resultType="String">
+		select cli_email from client_db where cli_rank in (1,2)
+	</select>
+	
+</mapper>

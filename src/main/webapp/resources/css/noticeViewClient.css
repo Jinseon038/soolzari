@@ -1,0 +1,91 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'S-CoreDream-3Light';
+}
+
+section,
+.notice {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.notice tr {
+    display: block;
+    border-top: 1px solid lightgray;
+}
+
+.notice th,
+td {
+    width: 150px;
+    box-sizing: border-box;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+
+.noticetitle {
+    text-align: center;
+    font-size: 2em;
+    margin-top: 150px;
+    margin-bottom: 100px;
+}
+
+.notice tr:last-child {
+    min-height: 300px;
+    border-bottom: 1px solid lightgray;
+    padding: 30px;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+.notice tr:last-child>td {
+    text-align: left;
+    font-size: 20px;
+}
+
+#list {
+    width: 70px;
+    height: 31px;
+    background: #4d5075;
+    color: white;
+    border: 1px solid #4d5075;
+    box-sizing: border-box;
+    line-height: 27px;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 30px;
+}
+
+#next, #prev {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#prev > span,
+#next > span {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+#prev > a,
+#next > a {
+    margin-left: 80px;
+}
+.noticeContent{
+	width: 100%;
+}

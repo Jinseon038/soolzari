@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<!-- null값이 발생하는 경우 빈칸잉 아닌 null로 처리 -->
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		       <setting name="callSettersOnNulls" value="true"/> 
+	</settings>
+	
+	<!-- mapper위치  등록-->
+	<typeAliases>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Client" alias="c"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Reservation" alias="r"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.FundReview" alias="fr"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Class_List" alias="cl"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Goods" alias="g"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Subscribe" alias="s"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Fund" alias="f"/>
+		<typeAlias type="com.soolzari.shop.seller.model.vo.Seller" alias="sl"/>
+		<typeAlias type="com.soolzari.shop.admin.model.vo.Notice" alias="n"/>
+		<typeAlias type="com.soolzari.shop.image.model.vo.Image" alias="i"/>
+		<typeAlias type="com.soolzari.shop.admin.model.vo.Accept" alias="a"/>
+		<typeAlias type="com.soolzari.shop.admin.model.vo.User" alias="u"/>
+		<typeAlias type="com.soolzari.shop.admin.model.vo.Qrv" alias="qrv"/>
+		<typeAlias type="com.soolzari.shop.admin.model.vo.Sool" alias="sool"/>
+		
+		<typeAlias type="com.soolzari.shop.client.model.vo.Client2" alias="c2"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Goods2" alias="g2"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Basket" alias="b"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Purchase" alias="purchase"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.GoodsList" alias="goodsList"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.OrderListData" alias="orderListData"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.OrderPageData" alias="orderPageData"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.ClassList" alias="classList"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.ExperienceListData" alias="experienceListData"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Qna" alias="qna"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.BasketDel" alias="BasketDel"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.GoodsSellerDetail" alias="GoodsSellerDetail"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.Funding" alias="funding"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.FundingGoods" alias="fundingGoods"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.FundDetailDB" alias="fundDetailDB"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.FundingImg" alias="fundingImg"/>
+		
+
+		<typeAlias type="com.soolzari.shop.seller.model.vo.Seller" alias="sl"/>
+		<typeAlias type="com.soolzari.shop.seller.model.vo.Goods" alias="sellerGoods"/>
+		<typeAlias type="com.soolzari.shop.seller.model.vo.Class" alias="sellerClass"/>
+		<typeAlias type="com.soolzari.shop.seller.model.vo.ClassPage" alias="sellerClassPage"/>
+		<typeAlias type="com.soolzari.shop.seller.model.vo.Image" alias="sellerImage"/>
+		<typeAlias type="com.soolzari.shop.seller.model.vo.Score" alias="sellerScore"/>
+		<typeAlias type="com.soolzari.shop.seller.model.vo.Funding" alias="sellerFunding"/>
+		<typeAlias type="com.soolzari.shop.seller.model.vo.FundingGoods" alias="sellerFG"/>
+		<typeAlias type="com.soolzari.shop.seller.model.vo.GoodsList" alias="sellerGL"/>
+		<typeAlias type="com.soolzari.shop.seller.model.vo.FundingList" alias="sellerFL"/>
+		<typeAlias type="com.soolzari.shop.client.model.vo.FundingListData" alias="fundingListData"/>
+
+	</typeAliases>
+
+</configuration>

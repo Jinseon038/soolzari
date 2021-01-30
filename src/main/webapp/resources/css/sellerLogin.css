@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+
+    @font-face {
+        font-family: 'S-CoreDream-3Light';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    * {
+        font-family: 'S-CoreDream-3Light';
+    }
+    
+    @media (min-width: 768px) .login-box {
+        margin-top: 20px;
+    }
+
+    .login-box {
+        border: 1px solid #ddd;
+        background: #fff;
+        padding: 0 10px 30px 10px;
+        width: 340px;
+        height: 435px;
+        margin:0 auto;
+        margin-top: 15%;
+        margin-bottom: 15%;
+        line-height: 30px;
+    }
+
+    html,
+    body,
+    div,
+    span,
+    ul,
+    li,
+    input,
+    select,
+    a,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    dl,
+    dt,
+    dd,
+    button,
+    label,
+    p,
+    pre,
+    textarea,
+    section {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 14px;
+        box-sizing: border-box;
+        display: block;
+        color: #616161;
+        /* outline: 0; */
+        vertical-align: baseline;
+        text-decoration: none;
+    }
+    
+    label{
+        text-align: left;
+    }
+    .login-box{
+        text-align: center;
+    }
+    
+    #login-box-title{
+        border-bottom: 1px solid #ddd;
+        padding-top:10px ; padding-bottom:10px;
+    }
+    
+    body{
+        background-color: #fdf4f4;
+    }
+    
+    .login-box>form>input[type=text],input[type=password]{
+        width:100%;
+        height:44px;
+        line-height:44px;
+        border: 1px solid #ddd;
+    }
+    input::-webkit-input-placeholder{
+        color: #ddd;
+    }
+    button{
+        margin-top:10px;
+        width:100%;
+        border:none;
+        height:44px;
+        background-color: #f7b8b4;
+        color: white;
+    }
+    

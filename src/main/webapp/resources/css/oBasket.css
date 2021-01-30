@@ -1,0 +1,90 @@
+@charset "UTF-8";
+/* 배너----------------------------------------- */
+.bTDiv2>h5:first-child{
+	color: white;
+}
+.bTDiv2>h5:first-child{
+	color: white;
+}
+/* 테이블----------------------------------------- */
+.table{
+	width: 100%;
+}
+.th1{
+	width: 5%;
+}
+.td1{
+	width: 60%;
+}
+.td2{
+	width: 20%;
+}
+.td3{
+	width: 15%;
+}
+/* 결제예정금액----------------------------------------- */
+.th2{
+	text-indent: 100px;
+	font-weight: bold;
+	font-size: 30px;
+	color: rgb(77, 80, 117);
+	height: 180px;
+	line-height: 180px;
+}
+.totalPrice{
+	display: inline-block;
+	font-weight: bold;
+	font-size: 30px;
+	color: rgb(77, 80, 117);
+	margin: 0;
+}
+.totalTd {
+	text-align: right;
+}
+.comma{
+	display: inline-block;
+}
+/* 하단버튼----------------------------------------- */
+.btnTd{
+	text-align: center;
+}
+.bt{
+	width: 200px;
+	height: 50px;
+	line-height: 50px;
+	padding: 0;
+	margin-top: 50px;
+	border-radius: 5px;
+}
+.keepBtn{
+	border: 1px solid rgb(232, 154, 173);
+	color: rgb(232, 154, 173);
+	background-color: white;
+	
+}
+.orderBtn{
+	border: 1px solid rgb(232, 154, 173);
+	background-color: rgb(232, 154, 173);
+	color: white;
+}
+/* 플러스마이너스 버튼----------------------------------------- */
+.mi{
+	width: 30px;
+	height: 30px;
+}
+.pl{
+	width: 30px;
+	height: 30px;
+}
+/* 각 상품의 가격 및 배송비----------------------------------------- */
+.eachPrice{
+	padding-top: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	color: rgb(77, 80, 117);
+	
+}
+.textRight{
+	text-align: center;
+}
+	
